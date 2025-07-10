@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import FundiRegister from "./pages/fundi/FundiRegister";
+import FundiLogin from "./pages/fundi/FundiLogin";
+import FundiDashboard from "./pages/fundi/FundiDashboard";
+import FundiProfileUpdate from "./pages/fundi/FundiProfileUpdate";
+import ClientRegister from "./pages/client/ClientRegister";
+import ClientLogin from "./pages/client/ClientLogin";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/register/fundi" element={<FundiRegister />} />
+            <Route path="/login/fundi" element={<FundiLogin />} />
+            <Route path="/dashboard/fundi" element={<FundiDashboard />} />
+            <Route path="/register/client" element={<ClientRegister />} />
+            <Route path="/login/client" element={<ClientLogin />} />
 
-export default App
+            <Route
+              path="/profile/update/fundi"
+              element={<FundiProfileUpdate />}
+            />
+
+            {/* Other routes will go here */}
+          </Routes>
+        </div>
+        <Footer />
+      </div>
+    </Router>
+  );
+};
+
+export default App;
