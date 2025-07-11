@@ -10,6 +10,9 @@ import FundiDashboard from "./pages/fundi/FundiDashboard";
 import FundiProfileUpdate from "./pages/fundi/FundiProfileUpdate";
 import ClientRegister from "./pages/client/ClientRegister";
 import ClientLogin from "./pages/client/ClientLogin";
+import ClientDashboard from "./pages/client/ClientDashboard";
+import ClientProfileUpdate from "./pages/client/ClientProfileUpdate";
+import FundiSubscription from "./pages/fundi/FundiSubscription";
 
 const App = () => {
   return (
@@ -24,6 +27,13 @@ const App = () => {
             <Route path="/dashboard/fundi" element={<FundiDashboard />} />
             <Route path="/register/client" element={<ClientRegister />} />
             <Route path="/login/client" element={<ClientLogin />} />
+            <Route path="/dashboard/client" element={<ClientDashboard />} />
+            <Route path="/fundi/subscription" element={<FundiSubscription />} />
+
+            <Route
+              path="/profile/update/client"
+              element={<ClientProfileUpdate />}
+            />
 
             <Route
               path="/profile/update/fundi"

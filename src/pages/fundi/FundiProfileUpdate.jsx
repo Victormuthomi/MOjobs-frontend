@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import axios from "../../lib/axios";
 import toast from "react-hot-toast";
+import FundiSidebar from "../../components/FundiSidebar";
 
 const FundiProfileUpdate = () => {
   const [formData, setFormData] = useState({
@@ -78,111 +79,117 @@ const FundiProfileUpdate = () => {
   };
 
   return (
-    <section className="min-h-screen flex items-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 py-12 px-4">
-      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 w-full">
-        {/* Left image */}
-        <div className="hidden md:flex items-center justify-center relative">
-          <img
-            src="/images/fundi4.png"
-            alt="Fundi update"
-            className="rounded-2xl shadow-2xl w-full h-auto max-h-[600px] object-cover"
-          />
-          <div className="absolute bottom-6 left-28 bg-blue-700/90 text-white px-4 py-2 rounded-lg shadow-md">
-            <p className="text-sm md:text-base font-semibold">
-              Update your profile to get more clients!
-            </p>
-          </div>
-        </div>
+    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-blue-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Sidebar */}
+      <FundiSidebar />
 
-        {/* Right form */}
-        <div className="w-full bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 space-y-6">
-          <div className="flex justify-center">
-            <div className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 p-3 rounded-full shadow-sm">
-              <HardHat size={32} />
+      {/* Main Content */}
+      <main className="flex-1 p-6 flex justify-center items-center">
+        <div className="max-w-5xl w-full grid md:grid-cols-2 gap-12">
+          {/* Left Image */}
+          <div className="hidden md:flex items-center justify-center relative">
+            <img
+              src="/images/fundi4.png"
+              alt="Fundi update"
+              className="rounded-2xl shadow-2xl w-full h-auto max-h-[600px] object-cover"
+            />
+            <div className="absolute bottom-6 left-6 bg-blue-700/90 text-white px-4 py-2 rounded-lg shadow-md">
+              <p className="text-sm md:text-base font-semibold">
+                Update your profile to get more clients!
+              </p>
             </div>
           </div>
 
-          <h2 className="text-3xl font-bold text-blue-700 dark:text-blue-400 text-center">
-            Update Profile
-          </h2>
+          {/* Right Form */}
+          <div className="w-full bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 space-y-6">
+            <div className="flex justify-center">
+              <div className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 p-3 rounded-full shadow-sm">
+                <HardHat size={32} />
+              </div>
+            </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              icon={<BadgeCheck />}
-              name="name"
-              placeholder="Full Name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <Input
-              icon={<Shield />}
-              name="id_number"
-              placeholder="ID Number"
-              value={formData.id_number}
-              onChange={handleChange}
-            />
-            <Input
-              icon={<ClipboardList />}
-              name="skills"
-              placeholder="Skills (e.g. Masonry, Plumbing)"
-              value={formData.skills}
-              onChange={handleChange}
-            />
-            <Input
-              icon={<MapPin />}
-              name="location"
-              placeholder="Location (e.g. Nairobi)"
-              value={formData.location}
-              onChange={handleChange}
-            />
-            <Input
-              icon={<Check />}
-              name="rate_note"
-              placeholder="Rate Note (e.g. Ksh 1500/day)"
-              value={formData.rate_note}
-              onChange={handleChange}
-            />
+            <h2 className="text-3xl font-bold text-blue-700 dark:text-blue-400 text-center">
+              Update Profile
+            </h2>
 
-            <Checkbox
-              label="Available for Work"
-              name="is_available"
-              checked={formData.is_available}
-              onChange={handleChange}
-            />
-            <Checkbox
-              label="Show My Contact"
-              name="show_contact"
-              checked={formData.show_contact}
-              onChange={handleChange}
-            />
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Input
+                icon={<BadgeCheck />}
+                name="name"
+                placeholder="Full Name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              <Input
+                icon={<Shield />}
+                name="id_number"
+                placeholder="ID Number"
+                value={formData.id_number}
+                onChange={handleChange}
+              />
+              <Input
+                icon={<ClipboardList />}
+                name="skills"
+                placeholder="Skills (e.g. Masonry, Plumbing)"
+                value={formData.skills}
+                onChange={handleChange}
+              />
+              <Input
+                icon={<MapPin />}
+                name="location"
+                placeholder="Location (e.g. Nairobi)"
+                value={formData.location}
+                onChange={handleChange}
+              />
+              <Input
+                icon={<Check />}
+                name="rate_note"
+                placeholder="Rate Note (e.g. Ksh 1500/day)"
+                value={formData.rate_note}
+                onChange={handleChange}
+              />
 
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full py-3 rounded-lg text-lg font-medium text-white transition ${
-                loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
-              }`}
-            >
-              {loading ? (
-                <span className="flex justify-center items-center gap-2">
-                  <Loader2 className="animate-spin" size={18} />
-                  Saving...
-                </span>
-              ) : (
-                "Save Changes"
-              )}
-            </button>
-          </form>
+              <Checkbox
+                label="Available for Work"
+                name="is_available"
+                checked={formData.is_available}
+                onChange={handleChange}
+              />
+              <Checkbox
+                label="Show My Contact"
+                name="show_contact"
+                checked={formData.show_contact}
+                onChange={handleChange}
+              />
+
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full py-3 rounded-lg text-lg font-medium text-white transition ${
+                  loading ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-700"
+                }`}
+              >
+                {loading ? (
+                  <span className="flex justify-center items-center gap-2">
+                    <Loader2 className="animate-spin" size={18} />
+                    Saving...
+                  </span>
+                ) : (
+                  "Save Changes"
+                )}
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-    </section>
+      </main>
+    </div>
   );
 };
 
-// Reusable Input component
+// Input Component
 const Input = ({ icon, name, placeholder, value, onChange }) => (
   <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-lg">
-    <span className="text-blue-600">{icon}</span>
+    <span className="text-blue-600 dark:text-blue-300">{icon}</span>
     <input
       type="text"
       name={name}
@@ -195,7 +202,7 @@ const Input = ({ icon, name, placeholder, value, onChange }) => (
   </div>
 );
 
-// Reusable Checkbox
+// Checkbox Component
 const Checkbox = ({ label, name, checked, onChange }) => (
   <label className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
     <input

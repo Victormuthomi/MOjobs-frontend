@@ -1,21 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  HardHat,
-  User,
-  Briefcase,
-  Settings,
-  BadgeCheck,
-  LayoutDashboard,
-  LogOut,
-  CheckCircle,
-  Shield,
-  XCircle,
-  Phone,
-  Star,
-} from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { CheckCircle, Shield, XCircle, Phone, Star, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import axios from "../../lib/axios";
 import toast from "react-hot-toast";
+import FundiSidebar from "../../components/FundiSidebar"; // ✅ import sidebar
 
 const FundiDashboard = () => {
   const navigate = useNavigate();
@@ -44,11 +32,6 @@ const FundiDashboard = () => {
     fetchData();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login/fundi");
-  };
-
   const handleToggle = async () => {
     const newValue = !profile?.is_available;
     setProfile((prev) => ({ ...prev, is_available: newValue }));
@@ -72,37 +55,8 @@ const FundiDashboard = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-blue-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-white dark:bg-gray-800 shadow-xl p-6 flex flex-col">
-        <h2 className="text-2xl font-bold text-blue-700 dark:text-white flex items-center gap-2 mb-8">
-          <HardHat /> AjiriNow
-        </h2>
-        <nav className="space-y-4 mb-6">
-          <SidebarLink
-            icon={<LayoutDashboard />}
-            text="Dashboard"
-            to="/dashboard/fundi"
-          />
-          <SidebarLink icon={<User />} text="Fundis" to="/dashboard/fundis" />
-          <SidebarLink icon={<Briefcase />} text="Jobs" to="/dashboard/jobs" />
-          <SidebarLink
-            icon={<Settings />}
-            text="Profile"
-            to="/profile/update/fundi"
-          />
-          <SidebarLink
-            icon={<BadgeCheck />}
-            text="Subscription"
-            to="/dashboard/subscription"
-          />
-        </nav>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 text-red-600 hover:underline"
-        >
-          <LogOut size={18} /> Logout
-        </button>
-      </aside>
+      {/* ✅ Reusable Sidebar */}
+      <FundiSidebar />
 
       {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 md:p-8">
@@ -118,7 +72,7 @@ const FundiDashboard = () => {
           </p>
         </header>
 
-        {/* Ads Banner Placeholder */}
+        {/* Ads Banner */}
         <div className="mt-8 mb-4 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border-l-4 border-blue-500 px-6 py-4 rounded-xl shadow-sm">
           <h3 className="text-xl font-semibold">Coming Soon: Business Ads</h3>
           <p className="text-sm mt-1">
@@ -157,7 +111,7 @@ const FundiDashboard = () => {
           )}
         </div>
 
-        {/* Profile Completion Alert */}
+        {/* Incomplete Profile Alert */}
         {isProfileIncomplete && (
           <div className="bg-yellow-100 dark:bg-yellow-800 border-l-4 border-yellow-500 p-4 rounded-lg mb-6">
             <div className="flex items-center gap-3 text-yellow-700 dark:text-yellow-200">
@@ -230,18 +184,6 @@ const FundiDashboard = () => {
   );
 };
 
-// Reusable Sidebar Link
-const SidebarLink = ({ icon, text, to }) => (
-  <Link
-    to={to}
-    className="flex items-center gap-3 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition"
-  >
-    {icon}
-    {text}
-  </Link>
-);
-
-// Reusable Dashboard Card
 const DashboardCard = ({ title, value, icon, color }) => {
   const bgColor = {
     blue: "bg-blue-100 dark:bg-blue-900",

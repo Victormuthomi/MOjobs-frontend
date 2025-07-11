@@ -61,7 +61,7 @@ const ClientRegister = () => {
       setLoading(true);
       await api.post("/accounts/clients/register/", payload);
       toast.success("Registration successful! Redirecting to login...");
-      setTimeout(() => navigate("/accounts/clients/login/"), 1500);
+      setTimeout(() => navigate("/login/client"), 1500);
     } catch (err) {
       const message =
         err.response?.data?.error ||
