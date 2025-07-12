@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Fundis from "./pages/FundiDirectory";
 import FundiDetail from "./pages/FundiDetail";
-
+import AllJobsPage from "./pages/AllJobsPage";
 // 🧰 Fundi pages
 import FundiRegister from "./pages/fundi/FundiRegister";
 import FundiLogin from "./pages/fundi/FundiLogin";
@@ -42,6 +42,7 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/fundis" element={<Fundis />} />
             <Route path="/fundis/:id" element={<FundiDetail />} />
+            <Route path="/jobs" element={<AllJobsPage />} />
 
             {/* 🧰 Fundi */}
             <Route path="/register/fundi" element={<FundiRegister />} />
