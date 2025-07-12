@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import {
-  LayoutDashboard,
   Briefcase,
   Megaphone,
   User,
-  LogOut,
-  HardHat,
   ToggleLeft,
   ToggleRight,
   BadgeCheck,
   Smartphone,
   IdCard,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../lib/axios";
 import toast from "react-hot-toast";
+import HorizontalAdsStrip from "../../components/HorizontalAdsStrip";
+import ClientSidebar from "../../components/ClientSidebar";
 
 const ClientDashboard = () => {
   const navigate = useNavigate();
@@ -59,40 +58,10 @@ const ClientDashboard = () => {
     fetchData();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login/client");
-  };
-
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-green-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-white dark:bg-gray-800 shadow-xl p-6 flex flex-col">
-        <h2 className="text-2xl font-bold text-green-700 dark:text-white flex items-center gap-2 mb-8">
-          <HardHat /> AjiriNow
-        </h2>
-        <nav className="space-y-4 mb-6">
-          <SidebarLink
-            icon={<LayoutDashboard />}
-            text="Dashboard"
-            to="/dashboard/client"
-          />
-          <SidebarLink icon={<User />} text="Fundis" to="/dashboard/fundis" />
-          <SidebarLink icon={<Briefcase />} text="Jobs" to="/dashboard/jobs" />
-          <SidebarLink icon={<Megaphone />} text="Ads" to="/dashboard/ads" />
-          <SidebarLink
-            icon={<User />}
-            text="Profile"
-            to="/profile/update/client"
-          />
-        </nav>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 text-red-600 hover:underline"
-        >
-          <LogOut size={18} /> Logout
-        </button>
-      </aside>
+      {/* ✅ Sidebar placed here */}
+      <ClientSidebar />
 
       {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 md:p-8">
@@ -108,14 +77,13 @@ const ClientDashboard = () => {
           </p>
         </header>
 
-        {/* Ads Banner */}
-        <div className="mt-8 mb-6 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border-l-4 border-green-500 px-6 py-4 rounded-xl shadow-sm">
-          <h3 className="text-xl font-semibold">Your Business Ads</h3>
-          <p className="text-sm mt-1">
-            This section showcases your active business ads. Need more reach?
-            Add a new ad under the <strong>Ads</strong> tab!
-          </p>
-        </div>
+        {/* 💡 Live Ads Section */}
+        <section className="mt-8 mb-6">
+          <h3 className="text-xl font-semibold text-center text-gray-800 dark:text-white mb-2">
+            Sponsored Ads Near You
+          </h3>
+          <HorizontalAdsStrip />
+        </section>
 
         {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
@@ -200,17 +168,6 @@ const ClientDashboard = () => {
     </div>
   );
 };
-
-// Sidebar Link component
-const SidebarLink = ({ icon, text, to }) => (
-  <Link
-    to={to}
-    className="flex items-center gap-3 text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400 transition"
-  >
-    {icon}
-    {text}
-  </Link>
-);
 
 // Reusable Dashboard Card component
 const DashboardCard = ({ title, value, icon, color }) => {

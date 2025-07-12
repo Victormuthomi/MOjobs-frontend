@@ -3,7 +3,8 @@ import { CheckCircle, Shield, XCircle, Phone, Star, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../lib/axios";
 import toast from "react-hot-toast";
-import FundiSidebar from "../../components/FundiSidebar"; // ✅ import sidebar
+import FundiSidebar from "../../components/FundiSidebar";
+import HorizontalAdsStrip from "../../components/HorizontalAdsStrip";
 
 const FundiDashboard = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const FundiDashboard = () => {
       setUserData({
         name: res.data.name || "Fundi",
         is_active: res.data.is_active,
+        on_trial: res.data.on_trial,
         subscription_end: res.data.subscription_end,
       });
     } catch (err) {
@@ -53,12 +55,52 @@ const FundiDashboard = () => {
 
   const isProfileIncomplete = !profile?.skills || !profile?.location;
 
+  const getSubscriptionBadge = () => {
+    if (userData?.on_trial) {
+      return {
+        label: "Trial",
+        style:
+          "bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200",
+      };
+    } else if (userData?.is_active) {
+      return {
+        label: "Active",
+        style:
+          "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200",
+      };
+    } else {
+      return {
+        label: "Inactive",
+        style: "bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200",
+      };
+    }
+  };
+
+  const calculateDaysLeft = (endDateStr) => {
+    const today = new Date();
+    const endDate = new Date(endDateStr);
+    const todayOnly = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+    );
+    const endOnly = new Date(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate(),
+    );
+    const diffInMs = endOnly - todayOnly;
+    const msPerDay = 1000 * 60 * 60 * 24;
+    const diffDays = Math.floor(diffInMs / msPerDay);
+    return Math.max(0, diffDays);
+  };
+
+  const badge = getSubscriptionBadge();
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-blue-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* ✅ Reusable Sidebar */}
       <FundiSidebar />
 
-      {/* Main Content */}
       <main className="flex-1 p-4 sm:p-6 md:p-8">
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
@@ -72,27 +114,37 @@ const FundiDashboard = () => {
           </p>
         </header>
 
-        {/* Ads Banner */}
-        <div className="mt-8 mb-4 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 border-l-4 border-blue-500 px-6 py-4 rounded-xl shadow-sm">
-          <h3 className="text-xl font-semibold">Coming Soon: Business Ads</h3>
-          <p className="text-sm mt-1">
-            This section will showcase ads from clients such as hardware stores
-            and service providers near you.
-          </p>
-        </div>
+        {/* 💡 Live Ads Section */}
+        <section className="mt-8 mb-6">
+          <h3 className="text-xl font-semibold text-center text-gray-800 dark:text-white mb-2">
+            Sponsored Ads Near You
+          </h3>
+          <HorizontalAdsStrip />
+        </section>
 
-        {/* Subscription Info */}
+        {/* ✅ Subscription Info */}
         <div className="mb-6">
           <span
-            className={`inline-block px-4 py-2 rounded-full text-sm font-medium ${
-              userData?.is_active
-                ? "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200"
-                : "bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200"
-            }`}
+            className={`inline-block px-4 py-2 rounded-full text-sm font-medium ${badge.style}`}
           >
-            Subscription: {userData?.is_active ? "Active" : "Inactive"}
+            Subscription: {badge.label}
           </span>
-          {userData?.subscription_end && (
+
+          {/* Correct expiration display */}
+          {userData?.on_trial && profile?.trial_ends ? (
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              {new Date(profile.trial_ends) > new Date()
+                ? "Expires on: "
+                : "Expired on: "}
+              <strong className="text-gray-900 dark:text-white">
+                {new Date(profile.trial_ends).toLocaleDateString("en-KE", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </strong>
+            </p>
+          ) : userData?.subscription_end ? (
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               {new Date(userData.subscription_end) > new Date()
                 ? "Expires on: "
@@ -108,10 +160,30 @@ const FundiDashboard = () => {
                 )}
               </strong>
             </p>
+          ) : null}
+
+          {/* 🚀 Trial Days Left */}
+          {userData?.on_trial && profile?.trial_ends && (
+            <p className="text-xs mt-1 text-yellow-700 dark:text-yellow-300">
+              🚀 Trial –{" "}
+              <strong>{calculateDaysLeft(profile.trial_ends)} days left</strong>
+            </p>
           )}
+
+          {/* ✅ Subscription Days Left */}
+          {!userData?.on_trial &&
+            userData?.subscription_end &&
+            new Date(userData.subscription_end) > new Date() && (
+              <p className="text-xs mt-1 text-green-700 dark:text-green-300">
+                ✅ Subscribed –{" "}
+                <strong>
+                  {calculateDaysLeft(userData.subscription_end)} days left
+                </strong>
+              </p>
+            )}
         </div>
 
-        {/* Incomplete Profile Alert */}
+        {/* ⚠️ Incomplete Profile */}
         {isProfileIncomplete && (
           <div className="bg-yellow-100 dark:bg-yellow-800 border-l-4 border-yellow-500 p-4 rounded-lg mb-6">
             <div className="flex items-center gap-3 text-yellow-700 dark:text-yellow-200">
@@ -124,7 +196,7 @@ const FundiDashboard = () => {
           </div>
         )}
 
-        {/* Info Cards */}
+        {/* Profile Info Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <DashboardCard
             title="Your Skills"

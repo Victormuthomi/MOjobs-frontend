@@ -9,10 +9,13 @@ export default function FundiSubscription() {
   const [message, setMessage] = useState("");
   const [subscriptionEnd, setSubscriptionEnd] = useState(null);
   const [isActive, setIsActive] = useState(false);
+  const [onTrial, setOnTrial] = useState(false);
+  const [trialEnds, setTrialEnds] = useState(null);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
 
   const token = localStorage.getItem("token");
 
+  const isOnTrial = onTrial && trialEnds && new Date(trialEnds) > new Date();
   const isStillSubscribed =
     isActive && subscriptionEnd && new Date(subscriptionEnd) > new Date();
 
@@ -24,6 +27,8 @@ export default function FundiSubscription() {
       setPhone(res.data.phone_number || "");
       setSubscriptionEnd(res.data.subscription_end || null);
       setIsActive(res.data.is_active || false);
+      setOnTrial(res.data.on_trial || false);
+      setTrialEnds(res.data.trial_ends || null);
     } catch (err) {
       console.error("Error fetching fundi profile", err);
       setMessage("❌ Failed to fetch subscription info.");
@@ -61,7 +66,6 @@ export default function FundiSubscription() {
           `✅ STK Push sent to ${phone}. You will receive an M-Pesa prompt shortly. Please do NOT refresh or close this page.`,
         );
 
-        // Start polling for subscription status
         const pollInterval = setInterval(async () => {
           try {
             const checkRes = await axios.get("/accounts/fundis/me/", {
@@ -80,7 +84,7 @@ export default function FundiSubscription() {
           } catch (pollError) {
             console.error("Polling failed:", pollError);
           }
-        }, 5000); // poll every 5 seconds
+        }, 5000);
       } else {
         setMessage("ℹ️ " + (response.data.message || "STK Push sent."));
       }
@@ -115,20 +119,25 @@ export default function FundiSubscription() {
           <div className="text-center space-y-2">
             <span
               className={`inline-block px-4 py-2 rounded-full text-sm font-medium ${
-                isStillSubscribed
+                isStillSubscribed || isOnTrial
                   ? "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200"
                   : "bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200"
               }`}
             >
-              Subscription: {isStillSubscribed ? "Active" : "Inactive"}
+              {isOnTrial
+                ? "Trial Active"
+                : isStillSubscribed
+                  ? "Subscription Active"
+                  : "Inactive"}
             </span>
-            {subscriptionEnd && (
+
+            {(isStillSubscribed || isOnTrial) && (
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                {new Date(subscriptionEnd) > new Date()
-                  ? "Expires on: "
-                  : "Expired on: "}
+                {isOnTrial ? "Trial expires on: " : "Subscription expires on: "}
                 <strong className="text-gray-900 dark:text-white">
-                  {new Date(subscriptionEnd).toLocaleDateString("en-KE", {
+                  {new Date(
+                    isOnTrial ? trialEnds : subscriptionEnd,
+                  ).toLocaleDateString("en-KE", {
                     year: "numeric",
                     month: "short",
                     day: "numeric",
@@ -149,18 +158,20 @@ export default function FundiSubscription() {
               onChange={(e) => setPhone(e.target.value)}
               className="w-full p-3 border rounded-xl bg-white dark:bg-gray-800 dark:text-white dark:border-gray-600"
               placeholder="e.g. 0712345678"
-              disabled={isStillSubscribed}
+              disabled={isStillSubscribed || isOnTrial}
             />
           </div>
 
           {/* Subscribe Button */}
           <button
             onClick={handleSubscribe}
-            disabled={loading || isStillSubscribed}
+            disabled={loading || isStillSubscribed || isOnTrial}
             className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-transform transform hover:scale-105 disabled:opacity-50"
           >
-            {isStillSubscribed
-              ? "Subscription Active"
+            {isStillSubscribed || isOnTrial
+              ? isOnTrial
+                ? "Trial Active"
+                : "Subscription Active"
               : loading
                 ? "Processing..."
                 : "Subscribe for Ksh 200"}
@@ -183,15 +194,11 @@ export default function FundiSubscription() {
 
           {/* Note */}
           <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
-            {isStillSubscribed ? (
-              <>You can renew your subscription after it expires.</>
-            ) : (
-              <>
-                Once you confirm the payment on your phone, your subscription
-                will be activated instantly. Please do NOT refresh or close this
-                page.
-              </>
-            )}
+            {isOnTrial
+              ? "You are currently on a free trial. Subscription will be available once the trial ends."
+              : isStillSubscribed
+                ? "You can renew your subscription after it expires."
+                : "Once you confirm the payment on your phone, your subscription will be activated instantly. Please do NOT refresh or close this page."}
           </div>
         </div>
       </main>

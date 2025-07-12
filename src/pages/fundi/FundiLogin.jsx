@@ -48,7 +48,7 @@ const FundiLogin = () => {
       <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 w-full">
         <div className="hidden md:flex items-center justify-center relative">
           <img
-            src="/images/fundi3.png"
+            src="/images/fundi5.png"
             alt="Fundi working"
             className="rounded-2xl shadow-2xl w-full h-auto max-h-[600px] object-cover"
           />
@@ -121,6 +121,15 @@ const FundiLogin = () => {
               className="text-blue-600 hover:underline dark:text-blue-400"
             >
               Register
+            </Link>
+          </p>
+          <p className="text-sm text-center text-gray-600 dark:text-gray-300">
+            Forgot Password?{" "}
+            <Link
+              to="/reset-password/fundi"
+              className="text-blue-600 hover:underline dark:text-blue-400"
+            >
+              Reset
             </Link>
           </p>
         </div>

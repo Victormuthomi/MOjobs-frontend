@@ -49,7 +49,7 @@ export default function FundiSidebar({ onLogout }) {
           text="Dashboard"
           to="/dashboard/fundi"
         />
-        <SidebarLink icon={<User />} text="Fundis" to="/dashboard/fundis" />
+        <SidebarLink icon={<User />} text="Fundis" to="/fundis" />
         <SidebarLink icon={<Briefcase />} text="Jobs" to="/dashboard/jobs" />
         <SidebarLink
           icon={<Settings />}

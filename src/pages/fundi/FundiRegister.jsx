@@ -78,7 +78,7 @@ const FundiRegister = () => {
       <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 w-full">
         <div className="hidden md:flex items-center justify-center relative">
           <img
-            src="/images/fundi2.png"
+            src="/images/fundi3.png"
             alt="Fundi at work"
             className="rounded-2xl shadow-2xl w-full h-auto max-h-[600px] object-cover"
           />
