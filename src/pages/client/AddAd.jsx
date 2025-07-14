@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Image, Text, Link as LinkIcon, Loader2, Heading } from "lucide-react";
+import {
+  Image as ImageIcon,
+  Text,
+  Link as LinkIcon,
+  Loader2,
+  Heading,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../../lib/axios";
 import ClientSidebar from "../../components/ClientSidebar";
@@ -29,11 +35,17 @@ const AddAd = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!form.image) {
+      toast.error("Please upload an image.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("title", form.title);
     formData.append("description", form.description);
     if (form.link) formData.append("link", form.link);
-    if (form.image) formData.append("image", form.image);
+    formData.append("image", form.image);
 
     try {
       setLoading(true);
@@ -44,9 +56,8 @@ const AddAd = () => {
         },
       });
 
-      const adId = res.data.id;
       toast.success("Ad created! Proceed to payment.");
-      navigate(`/dashboard/client/ads/pay/${adId}`);
+      navigate(`/dashboard/client/ads/pay/${res.data.id}`);
     } catch (err) {
       toast.error("Failed to create ad.");
     } finally {
@@ -56,37 +67,35 @@ const AddAd = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800">
-      {/* Sidebar */}
       <ClientSidebar />
 
-      {/* Main content */}
       <main className="flex-1 p-6 sm:p-10">
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-start">
           {/* Left Image */}
           <div className="hidden md:flex justify-center">
             <img
-              src="/images/client5.png"
+              src="/images/client4.png"
               alt="Post Ad"
               className="rounded-2xl shadow-xl max-h-[500px] object-cover"
             />
           </div>
 
-          {/* Right Form */}
+          {/* Form */}
           <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-xl w-full">
             <h2 className="text-3xl font-bold text-green-700 dark:text-green-400 mb-6 text-center">
               Create a New Ad
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <Input
-                icon={<Heading size={18} />}
+                icon={<Heading size={20} />}
                 name="title"
                 placeholder="Ad Title"
                 value={form.title}
                 onChange={handleChange}
               />
               <Input
-                icon={<Text size={18} />}
+                icon={<Text size={20} />}
                 name="description"
                 placeholder="Ad Description"
                 value={form.description}
@@ -94,24 +103,28 @@ const AddAd = () => {
                 textarea
               />
               <Input
-                icon={<LinkIcon size={18} />}
+                icon={<LinkIcon size={20} />}
                 name="link"
                 placeholder="Optional Link (https://...)"
                 value={form.link}
                 onChange={handleChange}
               />
 
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                <Image size={18} />
-                Upload Ad Image (Optional)
-              </label>
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleChange}
-                className="w-full p-2 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white"
-              />
+              {/* File Upload */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <ImageIcon size={18} className="text-green-600" />
+                  Upload Ad Image <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleChange}
+                  className="block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-sm text-gray-800 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-600 file:text-white hover:file:bg-green-700 cursor-pointer"
+                  required
+                />
+              </div>
 
               <button
                 type="submit"
@@ -145,8 +158,8 @@ const Input = ({
   onChange,
   textarea = false,
 }) => (
-  <div className="flex items-start gap-2 bg-gray-100 dark:bg-gray-700 px-4 py-3 rounded-lg">
-    <span className="text-green-600">{icon}</span>
+  <div className="flex items-start gap-3 bg-gray-100 dark:bg-gray-700 px-4 py-3 rounded-lg">
+    <span className="text-green-600 pt-1">{icon}</span>
     {textarea ? (
       <textarea
         name={name}
