@@ -1,6 +1,7 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 // 🌍 Root pages
 import LandingPage from "./pages/LandingPage";
@@ -104,6 +105,7 @@ const App = () => {
         </div>
 
         <Footer />
+        <Analytics />
       </div>
     </Router>
   );
