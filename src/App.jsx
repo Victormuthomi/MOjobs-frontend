@@ -29,6 +29,7 @@ import ClientJobPayment from "./pages/client/ClientJobPayment";
 import ClientAdsPage from "./pages/client/ClientAdsPage";
 import AddAd from "./pages/client/AddAd";
 import ClientAdPayment from "./pages/client/ClientAdPayment";
+import ClientResetPassword from "./pages/client/ClientResetPassword";
 
 // 🧩 Layout
 import Header from "./components/Header";
@@ -73,6 +74,10 @@ const App = () => {
             <Route path="/pay/job/:jobId" element={<ClientJobPayment />} />
             <Route path="/dashboard/client/ads" element={<ClientAdsPage />} />
             <Route path="/dashboard/client/ads/add" element={<AddAd />} />
+            <Route
+              path="/reset-password/client"
+              element={<ClientResetPassword />}
+            />
             <Route
               path="/dashboard/client/ads/pay/:adId"
               element={<ClientAdPayment />}

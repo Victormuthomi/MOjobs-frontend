@@ -125,6 +125,16 @@ const ClientLogin = () => {
               Register
             </Link>
           </p>
+
+          <p className="text-sm text-center text-gray-600 dark:text-gray-300">
+            Forgot Password?{" "}
+            <Link
+              to="/reset-password/client"
+              className="text-green-600 hover:underline dark:text-green-400"
+            >
+              Reset
+            </Link>
+          </p>
         </div>
       </div>
     </section>
