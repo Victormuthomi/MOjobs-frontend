@@ -31,6 +31,7 @@ const FundiLogin = () => {
 
       const token = res.data.token;
       localStorage.setItem("token", token);
+      localStorage.setItem("user_type", "fundi");
 
       // 👤 Fetch fundi profile
       const profileRes = await api.get("/accounts/fundis/me/", {

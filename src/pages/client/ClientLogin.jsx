@@ -29,6 +29,7 @@ const ClientLogin = () => {
 
       const token = res.data.token;
       localStorage.setItem("token", token);
+      localStorage.setItem("user_type", "client");
 
       toast.success("Login successful! Redirecting...");
       setTimeout(() => navigate("/dashboard/client"), 1500);
