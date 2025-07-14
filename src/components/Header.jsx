@@ -62,10 +62,10 @@ const Header = () => {
           <Link to="/fundis" className="block hover:text-blue-600">
             Find Fundi
           </Link>
-          <Link to="/jobs/post" className="block hover:text-blue-600">
-            Post Job
+          <Link to="/jobs" className="block hover:text-blue-600">
+            Find Job
           </Link>
-          <Link to="/ads/post" className="block hover:text-blue-600">
+          <Link to="/register/client" className="block hover:text-blue-600">
             Advertise
           </Link>
         </div>
