@@ -20,8 +20,8 @@ const FundiDashboard = () => {
       setProfile(res.data);
       setUserData({
         name: res.data.name || "Fundi",
-        is_active: res.data.is_active,
         on_trial: res.data.on_trial,
+        is_subscribed: res.data.is_subscribed, // ✅ new field
         subscription_end: res.data.subscription_end,
       });
     } catch (err) {
@@ -62,7 +62,7 @@ const FundiDashboard = () => {
         style:
           "bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200",
       };
-    } else if (userData?.is_active) {
+    } else if (userData?.is_subscribed) {
       return {
         label: "Active",
         style:
@@ -116,7 +116,7 @@ const FundiDashboard = () => {
 
         {/* 💡 Live Ads Section */}
         <section className="mt-8 mb-6">
-          <h3 className="text-xl font-semibold text-center text-gray-800 dark:text-white mb-2">
+          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
             Sponsored Ads Near You
           </h3>
           <HorizontalAdsStrip />
@@ -172,6 +172,7 @@ const FundiDashboard = () => {
 
           {/* ✅ Subscription Days Left */}
           {!userData?.on_trial &&
+            userData?.is_subscribed &&
             userData?.subscription_end &&
             new Date(userData.subscription_end) > new Date() && (
               <p className="text-xs mt-1 text-green-700 dark:text-green-300">
@@ -196,8 +197,51 @@ const FundiDashboard = () => {
           </div>
         )}
 
+        {/* 🚫 Inactive Subscription Notice */}
+        {!userData?.on_trial && !userData?.is_subscribed && (
+          <div className="bg-red-100 dark:bg-red-900 border-l-4 border-red-500 p-4 rounded-lg mb-6">
+            <div className="flex items-center justify-between flex-wrap gap-4 text-red-800 dark:text-red-200">
+              <div className="flex items-center gap-3">
+                <XCircle className="w-5 h-5" />
+                <p>
+                  Your subscription is <strong>inactive</strong>. You need to
+                  subscribe to be featured on the <strong>fundis list</strong>.
+                </p>
+              </div>
+              <button
+                onClick={() => navigate("/fundi/subscription")}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+              >
+                Subscribe Now
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Profile Info Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <DashboardCard
+            title="Are you available for work?"
+            icon={<CheckCircle />}
+            color="blue"
+            value={
+              <div className="flex items-center gap-4">
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={profile?.is_available || false}
+                    onChange={handleToggle}
+                  />
+                  <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:bg-green-500 transition duration-300"></div>
+                  <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-full transition duration-300"></div>
+                </label>
+                <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                  {profile?.is_available ? "Yes, I am!" : "No, I’m not"}
+                </span>
+              </div>
+            }
+          />
           <DashboardCard
             title="Your Skills"
             value={profile?.skills || "N/A"}
@@ -227,28 +271,6 @@ const FundiDashboard = () => {
             value={profile?.rate_note || "No rate added yet."}
             icon={<Star />}
             color="green"
-          />
-          <DashboardCard
-            title="Are you available for work?"
-            icon={<CheckCircle />}
-            color="blue"
-            value={
-              <div className="flex items-center gap-4">
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="sr-only peer"
-                    checked={profile?.is_available || false}
-                    onChange={handleToggle}
-                  />
-                  <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:bg-green-500 transition duration-300"></div>
-                  <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-full transition duration-300"></div>
-                </label>
-                <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                  {profile?.is_available ? "Yes, I am!" : "No, I’m not"}
-                </span>
-              </div>
-            }
           />
         </div>
       </main>

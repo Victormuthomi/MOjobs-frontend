@@ -71,7 +71,7 @@ const HeroSection = () => (
 
           {/* 🔵 Browse Jobs (fundi register) */}
           <Link
-            to="/register/fundi"
+            to="/jobs"
             className="px-6 py-3 rounded-full border border-yellow-600 text-yellow-600 hover:bg-blue-50 dark:hover:bg-gray-700 transition transform hover:scale-105"
           >
             Browse Jobs

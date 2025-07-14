@@ -22,6 +22,8 @@ const FundiLogin = () => {
 
     try {
       setLoading(true);
+
+      // 🔐 Login
       const res = await api.post("/accounts/login/", {
         phone_number: formData.phone,
         password: formData.password,
@@ -30,8 +32,24 @@ const FundiLogin = () => {
       const token = res.data.token;
       localStorage.setItem("token", token);
 
+      // 👤 Fetch fundi profile
+      const profileRes = await api.get("/accounts/fundis/me/", {
+        headers: { Authorization: `Token ${token}` },
+      });
+
+      const profile = profileRes.data;
+
+      const isIncomplete = !profile.skills || !profile.location;
+
       toast.success("Login successful! Redirecting...");
-      setTimeout(() => navigate("/dashboard/fundi"), 1500);
+
+      setTimeout(() => {
+        if (isIncomplete) {
+          navigate("/profile/update/fundi");
+        } else {
+          navigate("/dashboard/fundi");
+        }
+      }, 1000);
     } catch (err) {
       const message =
         err.response?.data?.error ||

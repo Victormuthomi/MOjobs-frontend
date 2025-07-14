@@ -109,12 +109,26 @@ const ClientJobsPage = () => {
                   {job.description}
                 </p>
 
-                <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 mb-4">
+                <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 mb-2">
                   <MapPin size={14} />
                   {job.location}
                 </p>
 
+                {!job.is_active && (
+                  <p className="text-xs text-yellow-600 dark:text-yellow-400 mb-2">
+                    Inactive – Payment required
+                  </p>
+                )}
+
                 <div className="flex justify-end gap-3 mt-auto pt-2">
+                  {!job.is_active && (
+                    <button
+                      onClick={() => navigate(`/pay/job/${job.id}`)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md text-sm"
+                    >
+                      Pay Now
+                    </button>
+                  )}
                   <button
                     onClick={() =>
                       navigate(`/dashboard/client/jobs/edit/${job.id}`)

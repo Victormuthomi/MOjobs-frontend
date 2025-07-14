@@ -7,6 +7,8 @@ import LandingPage from "./pages/LandingPage";
 import Fundis from "./pages/FundiDirectory";
 import FundiDetail from "./pages/FundiDetail";
 import AllJobsPage from "./pages/AllJobsPage";
+import JobDetail from "./pages/JobDetail";
+
 // 🧰 Fundi pages
 import FundiRegister from "./pages/fundi/FundiRegister";
 import FundiLogin from "./pages/fundi/FundiLogin";
@@ -24,6 +26,9 @@ import ClientJobsPage from "./pages/client/ClientJobsPage";
 import EditJob from "./pages/client/EditJob";
 import AddJob from "./pages/client/AddJob";
 import ClientJobPayment from "./pages/client/ClientJobPayment";
+import ClientAdsPage from "./pages/client/ClientAdsPage";
+import AddAd from "./pages/client/AddAd";
+import ClientAdPayment from "./pages/client/ClientAdPayment";
 
 // 🧩 Layout
 import Header from "./components/Header";
@@ -43,6 +48,7 @@ const App = () => {
             <Route path="/fundis" element={<Fundis />} />
             <Route path="/fundis/:id" element={<FundiDetail />} />
             <Route path="/jobs" element={<AllJobsPage />} />
+            <Route path="/jobs/:id" element={<JobDetail />} />
 
             {/* 🧰 Fundi */}
             <Route path="/register/fundi" element={<FundiRegister />} />
@@ -65,6 +71,12 @@ const App = () => {
             <Route path="/dashboard/client/jobs" element={<ClientJobsPage />} />
             <Route path="/dashboard/client/jobs/add" element={<AddJob />} />
             <Route path="/pay/job/:jobId" element={<ClientJobPayment />} />
+            <Route path="/dashboard/client/ads" element={<ClientAdsPage />} />
+            <Route path="/dashboard/client/ads/add" element={<AddAd />} />
+            <Route
+              path="/dashboard/client/ads/pay/:adId"
+              element={<ClientAdPayment />}
+            />
 
             <Route
               path="/dashboard/client/jobs/edit/:id"

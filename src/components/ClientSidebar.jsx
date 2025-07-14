@@ -28,13 +28,18 @@ const ClientSidebar = () => {
           text="Dashboard"
           to="/dashboard/client"
         />
-        <SidebarLink icon={<User />} text="Fundis" to="/dashboard/fundis" />
+        <SidebarLink icon={<User />} text="Fundis" to="/fundis" />
+        <SidebarLink icon={<Briefcase />} text="Jobs" to="/jobs" />
         <SidebarLink
           icon={<Briefcase />}
           text="My Jobs"
           to="/dashboard/client/jobs"
         />
-        <SidebarLink icon={<Megaphone />} text="My Ads" to="/dashboard/ads" />
+        <SidebarLink
+          icon={<Megaphone />}
+          text="My Ads"
+          to="/dashboard/client/ads"
+        />
         <SidebarLink
           icon={<User />}
           text="Profile"

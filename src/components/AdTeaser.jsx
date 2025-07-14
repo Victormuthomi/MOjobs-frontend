@@ -24,7 +24,7 @@ const AdTeaser = () => {
           <strong>AjiriNow</strong> with targeted ad placements.
         </p>
         <Link
-          to="/ads/post"
+          to="/register/client"
           className="inline-block px-6 py-3 rounded-full bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-500 transition transform hover:scale-105 shadow-md"
         >
           Start Advertising

@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "../../lib/axios";
 import FundiSidebar from "../../components/FundiSidebar";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Loader2 } from "lucide-react";
 
 export default function FundiSubscription() {
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [waitingForPayment, setWaitingForPayment] = useState(false);
   const [message, setMessage] = useState("");
   const [subscriptionEnd, setSubscriptionEnd] = useState(null);
-  const [isActive, setIsActive] = useState(false);
   const [onTrial, setOnTrial] = useState(false);
   const [trialEnds, setTrialEnds] = useState(null);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
@@ -17,7 +17,10 @@ export default function FundiSubscription() {
 
   const isOnTrial = onTrial && trialEnds && new Date(trialEnds) > new Date();
   const isStillSubscribed =
-    isActive && subscriptionEnd && new Date(subscriptionEnd) > new Date();
+    subscriptionEnd && new Date(subscriptionEnd) > new Date();
+
+  const disabled =
+    loading || waitingForPayment || isOnTrial || isStillSubscribed;
 
   const fetchFundiProfile = async () => {
     try {
@@ -26,7 +29,6 @@ export default function FundiSubscription() {
       });
       setPhone(res.data.phone_number || "");
       setSubscriptionEnd(res.data.subscription_end || null);
-      setIsActive(res.data.is_active || false);
       setOnTrial(res.data.on_trial || false);
       setTrialEnds(res.data.trial_ends || null);
     } catch (err) {
@@ -45,8 +47,16 @@ export default function FundiSubscription() {
       return;
     }
 
+    if (disabled) {
+      setMessage(
+        "⚠️ You are either already subscribed, on trial, or a payment is in progress.",
+      );
+      return;
+    }
+
     setLoading(true);
-    setMessage("");
+    setWaitingForPayment(true);
+    setMessage("⏳ Sending STK Push...");
     setShowSuccessAnimation(false);
 
     try {
@@ -62,36 +72,59 @@ export default function FundiSubscription() {
       );
 
       if (response.data.checkout_id) {
-        setMessage(
-          `✅ STK Push sent to ${phone}. You will receive an M-Pesa prompt shortly. Please do NOT refresh or close this page.`,
-        );
+        setMessage("📲 STK Push sent! Waiting for payment confirmation...");
+
+        let attempts = 0;
+        const maxAttempts = 12;
 
         const pollInterval = setInterval(async () => {
+          attempts += 1;
+
           try {
             const checkRes = await axios.get("/accounts/fundis/me/", {
               headers: { Authorization: `Token ${token}` },
             });
-            if (
-              checkRes.data.is_active &&
-              new Date(checkRes.data.subscription_end) > new Date()
-            ) {
+
+            const subEnd = checkRes.data.subscription_end;
+
+            if (subEnd && new Date(subEnd) > new Date()) {
               clearInterval(pollInterval);
-              setIsActive(true);
-              setSubscriptionEnd(checkRes.data.subscription_end);
+              setWaitingForPayment(false);
+              setSubscriptionEnd(subEnd);
               setShowSuccessAnimation(true);
               setMessage("✅ Subscription activated successfully!");
+
+              // ✅ Redirect after 3 seconds
+              setTimeout(() => {
+                window.location.href = "/dashboard/fundi";
+              }, 3000);
+
+              return;
+            }
+
+            if (attempts >= maxAttempts) {
+              clearInterval(pollInterval);
+              setWaitingForPayment(false);
+              setMessage("❌ Payment timeout. Try again or check M-Pesa.");
             }
           } catch (pollError) {
             console.error("Polling failed:", pollError);
+            if (attempts >= maxAttempts) {
+              clearInterval(pollInterval);
+              setWaitingForPayment(false);
+              setMessage("❌ Polling failed. Try again later.");
+            }
           }
         }, 5000);
       } else {
+        setWaitingForPayment(false);
         setMessage("ℹ️ " + (response.data.message || "STK Push sent."));
       }
     } catch (error) {
       const errMsg =
         error.response?.data?.error || "Something went wrong. Try again.";
       setMessage("❌ " + errMsg);
+      setWaitingForPayment(false);
     } finally {
       setLoading(false);
     }
@@ -121,14 +154,18 @@ export default function FundiSubscription() {
               className={`inline-block px-4 py-2 rounded-full text-sm font-medium ${
                 isStillSubscribed || isOnTrial
                   ? "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200"
-                  : "bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200"
+                  : waitingForPayment
+                    ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200"
+                    : "bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200"
               }`}
             >
               {isOnTrial
                 ? "Trial Active"
                 : isStillSubscribed
                   ? "Subscription Active"
-                  : "Inactive"}
+                  : waitingForPayment
+                    ? "Waiting for Payment"
+                    : "Inactive"}
             </span>
 
             {(isStillSubscribed || isOnTrial) && (
@@ -156,18 +193,19 @@ export default function FundiSubscription() {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full p-3 border rounded-xl bg-white dark:bg-gray-800 dark:text-white dark:border-gray-600"
+              className="w-full p-3 border rounded-xl bg-white dark:bg-gray-800 dark:text-white dark:border-gray-600 disabled:opacity-50"
               placeholder="e.g. 0712345678"
-              disabled={isStillSubscribed || isOnTrial}
+              disabled={disabled}
             />
           </div>
 
           {/* Subscribe Button */}
           <button
             onClick={handleSubscribe}
-            disabled={loading || isStillSubscribed || isOnTrial}
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-transform transform hover:scale-105 disabled:opacity-50"
+            disabled={disabled}
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-transform transform hover:scale-105 disabled:opacity-50 flex items-center justify-center gap-2"
           >
+            {loading && <Loader2 className="animate-spin h-5 w-5" />}
             {isStillSubscribed || isOnTrial
               ? isOnTrial
                 ? "Trial Active"
@@ -198,7 +236,9 @@ export default function FundiSubscription() {
               ? "You are currently on a free trial. Subscription will be available once the trial ends."
               : isStillSubscribed
                 ? "You can renew your subscription after it expires."
-                : "Once you confirm the payment on your phone, your subscription will be activated instantly. Please do NOT refresh or close this page."}
+                : waitingForPayment
+                  ? "Waiting for payment confirmation. Do NOT close or refresh."
+                  : "Once you confirm the payment on your phone, your subscription will be activated instantly."}
           </div>
         </div>
       </main>
