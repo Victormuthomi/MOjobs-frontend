@@ -1,46 +1,33 @@
 import React, { useEffect, useState } from "react";
-import axios from "../lib/axios";
-import { useNavigate } from "react-router-dom";
 import { MapPin, ClipboardList, AlertTriangle, Briefcase } from "lucide-react";
-import HorizontalAdsStrip from "../components/HorizontalAdsStrip";
+import { useNavigate } from "react-router-dom";
+import axios from "../lib/axios";
 import ClientSidebar from "../components/ClientSidebar";
 import FundiSidebar from "../components/FundiSidebar";
+import HorizontalAdsStrip from "../components/HorizontalAdsStrip";
 
 const AllJobsPage = () => {
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
-  const [locations, setLocations] = useState([]);
-  const [titles, setTitles] = useState([]);
+  const [locations, setLocations] = useState({});
+  const [titles, setTitles] = useState({});
   const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedTitle, setSelectedTitle] = useState("");
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [currentRole, setCurrentRole] = useState(""); // reactive role
+  const [userType, setUserType] = useState("");
 
   const navigate = useNavigate();
 
-  // Determine role from localStorage (once on mount)
   useEffect(() => {
-    const clientToken = localStorage.getItem("client_token");
-    const fundiToken = localStorage.getItem("fundi_token");
-
-    if (clientToken) {
-      setCurrentRole("client");
-    } else if (fundiToken) {
-      setCurrentRole("fundi");
-    } else {
-      setCurrentRole("");
-    }
+    const type = localStorage.getItem("user_type");
+    setUserType(type || "");
   }, []);
 
   useEffect(() => {
     const fetchJobs = async () => {
       setLoading(true);
-
-      const token =
-        localStorage.getItem("client_token") ||
-        localStorage.getItem("fundi_token") ||
-        localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       if (!token) {
         setErrorMessage("unauthenticated");
@@ -55,18 +42,17 @@ const AllJobsPage = () => {
           },
         });
 
-        const activeJobs = res.data.filter((job) => job.is_active);
-        setJobs(activeJobs);
-        setFilteredJobs(activeJobs);
+        const active = res.data.filter((j) => j.is_active);
+        setJobs(active);
+        setFilteredJobs(active);
 
         const locationMap = {};
         const titleMap = {};
 
-        activeJobs.forEach((job) => {
-          const location = job.location?.trim();
+        active.forEach((job) => {
+          const loc = job.location?.trim();
           const title = job.title?.trim();
-          if (location)
-            locationMap[location] = (locationMap[location] || 0) + 1;
+          if (loc) locationMap[loc] = (locationMap[loc] || 0) + 1;
           if (title) titleMap[title] = (titleMap[title] || 0) + 1;
         });
 
@@ -76,7 +62,7 @@ const AllJobsPage = () => {
         if (err.response?.status === 403 || err.response?.status === 401) {
           setErrorMessage("unsubscribed");
         } else {
-          setErrorMessage("Something went wrong while fetching jobs.");
+          setErrorMessage("Something went wrong.");
         }
       } finally {
         setLoading(false);
@@ -88,19 +74,14 @@ const AllJobsPage = () => {
 
   useEffect(() => {
     let filtered = jobs;
-
-    if (selectedLocation) {
+    if (selectedLocation)
       filtered = filtered.filter((j) =>
         j.location?.toLowerCase().includes(selectedLocation.toLowerCase()),
       );
-    }
-
-    if (selectedTitle) {
+    if (selectedTitle)
       filtered = filtered.filter((j) =>
         j.title?.toLowerCase().includes(selectedTitle.toLowerCase()),
       );
-    }
-
     setFilteredJobs(filtered);
   }, [selectedLocation, selectedTitle, jobs]);
 
@@ -135,17 +116,8 @@ const AllJobsPage = () => {
       message = errorMessage || "Something went wrong.";
     }
 
-    const errorColors =
-      currentRole === "client"
-        ? "bg-green-50 text-green-900 border-green-400"
-        : currentRole === "fundi"
-          ? "bg-blue-50 text-blue-900 border-blue-400"
-          : "bg-red-100 text-red-800 border-red-500";
-
     return (
-      <div
-        className={`max-w-3xl mx-auto border-l-4 p-5 rounded-xl shadow mb-10 flex items-start gap-4 ${errorColors}`}
-      >
+      <div className="max-w-3xl mx-auto border-l-4 p-5 rounded-xl shadow mb-10 flex items-start gap-4 bg-red-50 text-red-800 border-red-500 dark:bg-red-900 dark:text-red-200">
         <AlertTriangle size={28} className="mt-1 shrink-0" />
         <div>
           <p className="text-base font-semibold mb-3">{message}</p>
@@ -166,77 +138,87 @@ const AllJobsPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Correct Sidebar based on currentRole */}
-      {currentRole === "client" && <ClientSidebar />}
-      {currentRole === "fundi" && <FundiSidebar />}
+    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-green-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Sidebar (Dashboard-style, always visible) */}
+      {userType === "client" ? (
+        <ClientSidebar />
+      ) : userType === "fundi" ? (
+        <FundiSidebar />
+      ) : (
+        <aside className="w-full md:w-64 bg-white dark:bg-gray-900 shadow-md p-6">
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+            Not Logged In
+          </h2>
+          <button
+            onClick={() => (window.location.href = "/")}
+            className="text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            ← Back to Home
+          </button>
+        </aside>
+      )}
 
       {/* Main Content */}
-      <div className="flex-1 bg-gradient-to-br from-green-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-10 px-4 sm:px-8">
-        <div className="max-w-5xl mx-auto mb-8 text-center">
-          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white mb-2">
+      <main className="flex-1 p-4 sm:p-6 md:p-8">
+        <header className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">
             Browse Available Jobs
           </h1>
           <p className="text-gray-700 dark:text-gray-300 text-lg">
             Explore posted jobs and find your next gig.
           </p>
-        </div>
+        </header>
 
         {/* Ads */}
-        <section className="mt-8 mb-6">
+        <section className="mb-8">
           <h3 className="text-xl font-semibold text-center text-gray-800 dark:text-white mb-2">
             Sponsored Ads
           </h3>
           <HorizontalAdsStrip />
         </section>
 
-        {/* Error or Job Listings */}
+        {/* Error or Filters */}
         {errorMessage ? (
           renderErrorBox()
         ) : (
           <>
             {/* Filters */}
-            <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               <select
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
                 className="p-3 rounded-xl bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-600"
               >
                 <option value="">🌍 Filter by Location</option>
-                {Object.entries(locations)
-                  .sort()
-                  .map(([loc, count]) => (
-                    <option key={loc} value={loc}>
-                      {loc} ({count})
-                    </option>
-                  ))}
+                {Object.entries(locations).map(([loc, count]) => (
+                  <option key={loc} value={loc}>
+                    {loc} ({count})
+                  </option>
+                ))}
               </select>
-
               <select
                 value={selectedTitle}
                 onChange={(e) => setSelectedTitle(e.target.value)}
                 className="p-3 rounded-xl bg-white dark:bg-gray-800 dark:text-white border dark:border-gray-600"
               >
                 <option value="">📋 Filter by Title</option>
-                {Object.entries(titles)
-                  .sort()
-                  .map(([title, count]) => (
-                    <option key={title} value={title}>
-                      {title} ({count})
-                    </option>
-                  ))}
+                {Object.entries(titles).map(([title, count]) => (
+                  <option key={title} value={title}>
+                    {title} ({count})
+                  </option>
+                ))}
               </select>
             </div>
 
             {/* Job Cards */}
-            <div className="max-w-6xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {loading ? (
                 <p className="text-center col-span-full text-gray-700 dark:text-gray-300">
                   Loading jobs...
                 </p>
               ) : filteredJobs.length === 0 ? (
                 <p className="text-center col-span-full text-gray-700 dark:text-gray-300">
-                  No jobs found with current filters.
+                  No jobs found.
                 </p>
               ) : (
                 filteredJobs.map((job) => (
@@ -272,7 +254,7 @@ const AllJobsPage = () => {
             </div>
           </>
         )}
-      </div>
+      </main>
     </div>
   );
 };

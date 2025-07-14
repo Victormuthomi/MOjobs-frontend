@@ -14,6 +14,7 @@ const ClientSidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user_type");
     navigate("/login/client");
   };
 

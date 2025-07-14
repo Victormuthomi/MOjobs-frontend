@@ -33,6 +33,7 @@ export default function FundiSidebar({ onLogout }) {
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user_type");
     if (onLogout) onLogout(); // optional hook
     navigate("/login/fundi");
   };
