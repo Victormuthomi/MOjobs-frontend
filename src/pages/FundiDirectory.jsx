@@ -7,16 +7,18 @@ import ClientSidebar from "../components/ClientSidebar";
 import FundiSidebar from "../components/FundiSidebar";
 
 const DefaultSidebar = () => (
-  <aside className="w-64 min-h-screen bg-white dark:bg-gray-900 shadow-md p-6">
-    <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+  <aside className="w-full md:w-64 bg-white dark:bg-gray-900 shadow-md p-4 md:p-6 mb-6 md:mb-0">
+    <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2 md:mb-4 text-center md:text-left">
       Not Logged In
     </h2>
-    <button
-      onClick={() => (window.location.href = "/")}
-      className="text-blue-600 dark:text-blue-400 hover:underline"
-    >
-      ← Back to Home
-    </button>
+    <div className="text-center md:text-left">
+      <button
+        onClick={() => (window.location.href = "/")}
+        className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+      >
+        ← Back to Home
+      </button>
+    </div>
   </aside>
 );
 
