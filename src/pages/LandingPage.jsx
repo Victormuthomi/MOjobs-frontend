@@ -3,6 +3,7 @@ import HeroSection from "../components/HeroSection";
 import WhyAjiriSection from "../components/WhyAjiriSection";
 import RoleImages from "../components/RoleImages";
 import AdTeaser from "../components/AdTeaser";
+import HowItWorksCarousel from "../components/HowItWorksCarousel";
 
 const LandingPage = () => {
   return (
@@ -10,6 +11,7 @@ const LandingPage = () => {
       <HeroSection />
       <WhyAjiriSection />
       <RoleImages />
+      <HowItWorksCarousel />
       <AdTeaser />
     </main>
   );

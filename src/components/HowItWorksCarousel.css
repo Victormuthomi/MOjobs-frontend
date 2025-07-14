@@ -1,0 +1,27 @@
+/* HowItWorksCarousel.css */
+
+.slick-prev:before,
+.slick-next:before {
+  color: #1f2937; /* Light mode: Tailwind's gray-800 */
+}
+
+.dark .slick-prev:before,
+.dark .slick-next:before {
+  color: #f9fafb; /* Dark mode: Tailwind's gray-100 */
+}
+
+/* Ensure arrows sit above everything */
+.slick-arrow {
+  z-index: 20 !important;
+}
+
+/* Adjust positioning on small screens */
+@media (max-width: 640px) {
+  .slick-prev {
+    left: -10px !important;
+  }
+
+  .slick-next {
+    right: -10px !important;
+  }
+}

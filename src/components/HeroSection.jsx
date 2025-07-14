@@ -37,7 +37,7 @@ const HeroSection = () => (
           />
         </h1>
         <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300">
-          AjiriNow is Kenya’s trusted platform to{" "}
+          AjiriNow is Meru’s trusted platform to{" "}
           <span className="text-blue-600 dark:text-blue-400 font-semibold">
             hire skilled fundis
           </span>

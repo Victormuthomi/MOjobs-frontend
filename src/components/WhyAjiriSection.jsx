@@ -7,19 +7,19 @@ const features = [
     icon: <Briefcase size={28} />,
     color: "from-blue-500 to-blue-300",
     title: "Skilled Fundis",
-    desc: "Access a vetted pool of skilled and verified fundis ready for work.",
+    desc: "Find experienced, verified fundis ready to get the job done.",
   },
   {
     icon: <ShieldCheck size={28} />,
     color: "from-green-500 to-green-300",
     title: "Secure Hiring",
-    desc: "We prioritize trust and transparency in every engagement.",
+    desc: "Enjoy peace of mind with trusted, transparent hiring every time.",
   },
   {
     icon: <Clock size={28} />,
     color: "from-orange-500 to-yellow-300",
     title: "Fast & Reliable",
-    desc: "Post jobs or ads and get responses in minutes — not days.",
+    desc: "Post your job or ad and start getting responses within minutes.",
   },
 ];
 
@@ -30,8 +30,8 @@ const WhyAjiriSection = () => (
         Why Choose AjiriNow?
       </h2>
       <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        We connect clients with the best local talent for fast, reliable, and
-        safe services.
+        The fastest way to hire fundis, post jobs, and grow your business in
+        Meru.
       </p>
     </div>
 
