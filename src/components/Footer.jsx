@@ -52,19 +52,19 @@ const Footer = () => {
         {/* Footer Links */}
         <div className="flex gap-6 text-sm">
           <a
-            href="#"
+            href="/terms"
             className="hover:text-blue-600 dark:hover:text-blue-400 transition"
           >
             Terms
           </a>
           <a
-            href="#"
+            href="/privacy"
             className="hover:text-blue-600 dark:hover:text-blue-400 transition"
           >
             Privacy
           </a>
           <a
-            href="#"
+            href="/contact"
             className="hover:text-blue-600 dark:hover:text-blue-400 transition"
           >
             Contact

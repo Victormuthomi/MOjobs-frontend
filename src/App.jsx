@@ -8,6 +8,10 @@ import Fundis from "./pages/FundiDirectory";
 import FundiDetail from "./pages/FundiDetail";
 import AllJobsPage from "./pages/AllJobsPage";
 import JobDetail from "./pages/JobDetail";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
 
 // 🧰 Fundi pages
 import FundiRegister from "./pages/fundi/FundiRegister";
@@ -50,6 +54,10 @@ const App = () => {
             <Route path="/fundis/:id" element={<FundiDetail />} />
             <Route path="/jobs" element={<AllJobsPage />} />
             <Route path="/jobs/:id" element={<JobDetail />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
 
             {/* 🧰 Fundi */}
             <Route path="/register/fundi" element={<FundiRegister />} />
