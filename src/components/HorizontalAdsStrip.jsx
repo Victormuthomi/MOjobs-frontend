@@ -48,9 +48,9 @@ const HorizontalAdsStrip = () => {
         className="block w-full max-w-2xl bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-500 transform hover:scale-[1.01] border border-gray-200 dark:border-gray-700"
         key={ad.id}
       >
-        {ad.image ? (
+        {ad.image_url ? (
           <img
-            src={ad.image}
+            src={ad.image_url}
             alt={ad.title}
             className="w-full h-auto object-contain rounded-t-lg"
           />
@@ -60,7 +60,6 @@ const HorizontalAdsStrip = () => {
           </div>
         )}
 
-        {/* Optional text content */}
         {(ad.title || ad.description || ad.link) && (
           <div className="p-3 space-y-1">
             {ad.title && (
