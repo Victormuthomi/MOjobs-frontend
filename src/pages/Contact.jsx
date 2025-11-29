@@ -14,13 +14,13 @@ const Contact = () => (
       <div className="space-y-6 text-left text-gray-700 dark:text-gray-300">
         {/* Email */}
         <a
-          href="mailto:ajirinow@gmail.com"
+          href="mailto:hello.mojobs@gmail.com"
           className="flex items-center gap-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow hover:shadow-lg transition"
         >
           <Mail size={24} className="text-blue-600" />
           <div>
             <p className="font-semibold text-gray-800 dark:text-white">Email</p>
-            <p className="text-sm">ajirinow@gmail.com</p>
+            <p className="text-sm">hello.mojobs@gmail.com</p>
           </div>
         </a>
 
@@ -32,7 +32,7 @@ const Contact = () => (
           <Phone size={24} className="text-green-600" />
           <div>
             <p className="font-semibold text-gray-800 dark:text-white">Phone</p>
-            <p className="text-sm">+254 710 210 258</p>
+            <p className="text-sm">07 102 102 58</p>
           </div>
         </a>
 
