@@ -21,7 +21,7 @@ const ClientSidebar = () => {
   return (
     <aside className="w-full md:w-64 bg-white dark:bg-gray-800 shadow-xl p-6 flex flex-col">
       <h2 className="text-2xl font-bold text-green-700 dark:text-white flex items-center gap-2 mb-8">
-        <HardHat /> AjiriNow
+        <HardHat /> MO-jobs
       </h2>
       <nav className="space-y-4 mb-6">
         <SidebarLink

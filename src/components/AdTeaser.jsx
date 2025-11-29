@@ -17,11 +17,11 @@ const AdTeaser = () => {
           <Megaphone size={28} />
         </div>
         <h2 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
-          Advertise with AjiriNow
+          Advertise with MO-jobs
         </h2>
         <p className="text-gray-700 dark:text-gray-300 mb-6 max-w-xl mx-auto">
           Have a service or product? Reach thousands of users directly on{" "}
-          <strong>AjiriNow</strong> with targeted ad placements.
+          <strong>MO-jobs</strong> with targeted ad placements.
         </p>
         <Link
           to="/register/client"

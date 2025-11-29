@@ -27,7 +27,7 @@ const WhyAjiriSection = () => (
   <section className="py-20 px-4 bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors">
     <div className="max-w-6xl mx-auto text-center mb-12">
       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-        Why Choose AjiriNow?
+        Why Choose MO-jobs?
       </h2>
       <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
         The fastest way to hire fundis, post jobs, and grow your business in
