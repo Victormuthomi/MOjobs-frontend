@@ -1,37 +1,37 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Briefcase, ShieldCheck, Clock } from "lucide-react";
+import { User, Users, Megaphone } from "lucide-react"; // Updated icons
 
 const features = [
   {
-    icon: <Briefcase size={28} />,
+    icon: <User size={28} />,
     color: "from-blue-500 to-blue-300",
-    title: "Skilled Fundis",
-    desc: "Find experienced, verified fundis ready to get the job done.",
+    title: "More Jobs",
+    desc: "Skilled fundis find gigs in tech, electrical, and construction, turning skills into income and a better life.",
   },
   {
-    icon: <ShieldCheck size={28} />,
+    icon: <Users size={28} />,
     color: "from-green-500 to-green-300",
-    title: "Secure Hiring",
-    desc: "Enjoy peace of mind with trusted, transparent hiring every time.",
+    title: "More Talent",
+    desc: "Clients and homeowners connect with verified, experienced technicians for every job they need done.",
   },
   {
-    icon: <Clock size={28} />,
+    icon: <Megaphone size={28} />,
     color: "from-orange-500 to-yellow-300",
-    title: "Fast & Reliable",
-    desc: "Post your job or ad and start getting responses within minutes.",
+    title: "More Customers",
+    desc: "Businesses reach more local clients through targeted ads, growing their sales and impact in the community.",
   },
 ];
 
-const WhyAjiriSection = () => (
+const WhyMoJobsSection = () => (
   <section className="py-20 px-4 bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors">
     <div className="max-w-6xl mx-auto text-center mb-12">
       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-        Why Choose MO-jobs?
+        Why MO-jobs?
       </h2>
       <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        The fastest way to hire fundis, post jobs, and grow your business in
-        Meru.
+        Connecting skilled workers with jobs, helping clients find talent, and
+        enabling businesses to reach more customers.
       </p>
     </div>
 
@@ -60,4 +60,4 @@ const WhyAjiriSection = () => (
   </section>
 );
 
-export default WhyAjiriSection;
+export default WhyMoJobsSection;

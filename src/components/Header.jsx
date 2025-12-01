@@ -37,7 +37,7 @@ const Header = () => {
                 md:h-14
                 transform
                 transition-transform duration-300
-                scale-320 md:scale-500
+                scale-100 md:scale-125
               "
             />
           </a>

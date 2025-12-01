@@ -22,13 +22,13 @@ const HeroSection = () => (
         <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 dark:text-white">
           <TypeAnimation
             sequence={[
-              "Connecting Clients with Fundis.",
+              "More money. More happiness.",
               2000,
-              "Post Jobs. Find Talent.",
+              "Connecting Fundis with Jobs.",
               2000,
-              "Trusted Skilled Workers in Minutes.",
+              "Clients Find Skilled Talent Fast.",
               2000,
-              "Add Ads and Reach Thousands of Customers.",
+              "Businesses Reach More Customers.",
               2000,
             ]}
             wrapper="span"
@@ -37,23 +37,22 @@ const HeroSection = () => (
           />
         </h1>
         <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300">
-          MO-jobs is Meru town's trusted platform to{" "}
+          MO-jobs is Meru's trusted platform to{" "}
           <span className="text-blue-600 dark:text-blue-400 font-semibold">
-            hire skilled fundis
+            find skilled fundis
           </span>
           ,{" "}
           <span className="text-green-600 dark:text-green-400 font-semibold">
-            post jobs
+            hire the right talent
           </span>
           , and{" "}
           <span className="text-yellow-600 dark:text-yellow-400 font-semibold">
-            promote ads
-          </span>{" "}
-          to grow your service business.
+            grow your business by reaching more customers
+          </span>
+          .
         </p>
 
         <div className="flex justify-center md:justify-start gap-4 flex-wrap">
-          {/* 🔵 Find a Fundi */}
           <Link
             to="/fundis"
             className="px-6 py-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition transform hover:scale-105"
@@ -61,7 +60,6 @@ const HeroSection = () => (
             Find a Fundi
           </Link>
 
-          {/* 🟢 Post a Job (client register) */}
           <Link
             to="/register/client"
             className="px-6 py-3 rounded-full border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-gray-700 transition transform hover:scale-105"
@@ -69,13 +67,27 @@ const HeroSection = () => (
             Post a Job
           </Link>
 
-          {/* 🔵 Browse Jobs (fundi register) */}
           <Link
             to="/jobs"
             className="px-6 py-3 rounded-full border border-yellow-600 text-yellow-600 hover:bg-blue-50 dark:hover:bg-gray-700 transition transform hover:scale-105"
           >
             Browse Jobs
           </Link>
+
+          {/* APK Download Button */}
+          <div className="flex flex-col items-center">
+            <a
+              href="/downloads/mo-jobs.apk"
+              download
+              className="px-6 py-3 rounded-full bg-orange-500 text-white hover:bg-orange-600 transition transform hover:scale-105"
+            >
+              Download App (APK)
+            </a>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Direct APK download for Android — coming soon to Play Store and
+              appstore
+            </p>
+          </div>
         </div>
       </motion.div>
 

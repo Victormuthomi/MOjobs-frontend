@@ -28,7 +28,7 @@ const RoleImages = () => {
             For Fundis
           </motion.p>
           <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-            Get discovered. Find jobs. Grow your skills.
+            Get discovered. Find more jobs. Earn more money. Live happier.
           </p>
 
           <Link
@@ -39,7 +39,7 @@ const RoleImages = () => {
           </Link>
         </motion.div>
 
-        {/* 🟢 Client Block */}
+        {/* 🟢 Clients & Businesses Block */}
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: 40 }}
@@ -49,7 +49,7 @@ const RoleImages = () => {
         >
           <motion.img
             src="/images/client.jpg"
-            alt="Client looking to hire"
+            alt="Client or business looking to hire/promote"
             className="rounded-2xl shadow-lg w-full object-cover h-64 md:h-80 mb-4"
             whileHover={{ scale: 1.03 }}
             transition={{ type: "spring", stiffness: 200 }}
@@ -58,18 +58,27 @@ const RoleImages = () => {
             className="text-xl font-semibold text-green-700 dark:text-green-400"
             whileHover={{ scale: 1.02 }}
           >
-            For Clients
+            For Clients & Businesses
           </motion.p>
           <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-            Post jobs. Connect fast. Hire trusted fundis.
+            Find skilled fundis fast, post jobs, and promote your business to
+            reach more customers in Meru.
           </p>
 
-          <Link
-            to="/register/client"
-            className="inline-block mt-4 px-6 py-2 rounded-full bg-green-600 text-white hover:bg-green-700 transition shadow-sm"
-          >
-            Hire a Fundi
-          </Link>
+          <div className="flex justify-center gap-4 mt-4 flex-wrap">
+            <Link
+              to="/register/client"
+              className="inline-block px-6 py-2 rounded-full bg-green-600 text-white hover:bg-green-700 transition shadow-sm"
+            >
+              Hire a Fundi
+            </Link>
+            <Link
+              to="/register/client"
+              className="inline-block px-6 py-2 rounded-full border border-yellow-600 text-yellow-600 hover:bg-yellow-50 dark:hover:bg-gray-700 transition shadow-sm"
+            >
+              Advertise Your Business
+            </Link>
+          </div>
         </motion.div>
       </div>
     </section>

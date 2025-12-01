@@ -35,7 +35,7 @@ const Footer = () => {
           <img
             src="images/logo.png"
             alt="MOjobs Logo"
-            className="h-10 w-auto transform scale-300 md:scale-400"
+            className="h-10 w-auto transform scale-100 md:scale-125"
           />
         </div>
 
