@@ -36,6 +36,17 @@ import AddAd from "./pages/client/AddAd";
 import ClientAdPayment from "./pages/client/ClientAdPayment";
 import ClientResetPassword from "./pages/client/ClientResetPassword";
 
+// 🛒 Seller pages
+import SellerRegister from "./pages/seller/SellerRegister";
+import SellerLogin from "./pages/seller/SellerLogin";
+import SellerResetPassword from "./pages/seller/SellerResetPassword";
+import SellerDashboard from "./pages/seller/SellerDashboard";
+import ItemDirectory from "./pages/seller/ItemDirectory";
+import AddItem from "./pages/seller/AddItem";
+import EditItem from "./pages/seller/EditItem";
+import SellerProfileUpdate from "./pages/seller/SellerProfileUpdate";
+import SellerItems from "./pages/seller/SellerItem.jsx";
+import ItemDetail from "./pages/seller/ItemDetail.jsx";
 // 🧩 Layout
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -84,22 +95,41 @@ const App = () => {
             <Route path="/dashboard/client/ads" element={<ClientAdsPage />} />
             <Route path="/dashboard/client/ads/add" element={<AddAd />} />
             <Route
-              path="/reset-password/client"
-              element={<ClientResetPassword />}
-            />
-            <Route
               path="/dashboard/client/ads/pay/:adId"
               element={<ClientAdPayment />}
             />
-
             <Route
               path="/dashboard/client/jobs/edit/:id"
               element={<EditJob />}
             />
-
             <Route
               path="/profile/update/client"
               element={<ClientProfileUpdate />}
+            />
+            <Route
+              path="/reset-password/client"
+              element={<ClientResetPassword />}
+            />
+
+            {/* 🛒 Seller */}
+            <Route path="/register/seller" element={<SellerRegister />} />
+            <Route path="/login/seller" element={<SellerLogin />} />
+            <Route
+              path="/reset-password/seller"
+              element={<SellerResetPassword />}
+            />
+            <Route path="/dashboard/seller" element={<SellerDashboard />} />
+            <Route path="/seller/items" element={<ItemDirectory />} />
+            <Route path="/seller/items/:id" element={<ItemDetail />} />
+            <Route path="/dashboard/seller/items/add" element={<AddItem />} />
+            <Route path="/dashboard/seller/items" element={<SellerItems />} />
+            <Route
+              path="/dashboard/seller/items/edit/:id"
+              element={<EditItem />}
+            />
+            <Route
+              path="/profile/update/seller"
+              element={<SellerProfileUpdate />}
             />
           </Routes>
         </div>
