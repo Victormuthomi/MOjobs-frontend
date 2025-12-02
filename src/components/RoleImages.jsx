@@ -5,13 +5,47 @@ import { Link } from "react-router-dom";
 const RoleImages = () => {
   return (
     <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        {/* 🔵 Fundi Block */}
+      <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-12 items-center">
+        {/* 🟣 Sellers Block */}
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
+          <motion.img
+            src="/images/seller.jpg"
+            alt="Seller posting items"
+            className="rounded-2xl shadow-lg w-full object-cover h-64 md:h-80 mb-4"
+            whileHover={{ scale: 1.03 }}
+            transition={{ type: "spring", stiffness: 200 }}
+          />
+          <motion.p
+            className="text-xl font-semibold text-purple-700 dark:text-purple-400"
+            whileHover={{ scale: 1.02 }}
+          >
+            For Sellers
+          </motion.p>
+          <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
+            Post items on sale and reach buyers quickly — open to everyone,
+            individuals and businesses alike.
+          </p>
+
+          <Link
+            to="/seller/items"
+            className="inline-block mt-4 px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition shadow-sm"
+          >
+            Post Your Item
+          </Link>
+        </motion.div>
+
+        {/* 🔵 Fundi Block */}
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
           viewport={{ once: true }}
         >
           <motion.img
@@ -44,7 +78,7 @@ const RoleImages = () => {
           className="text-center"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
           viewport={{ once: true }}
         >
           <motion.img
@@ -61,8 +95,8 @@ const RoleImages = () => {
             For Clients & Businesses
           </motion.p>
           <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">
-            Find skilled fundis fast, post jobs, and promote your business to
-            reach more customers in Meru.
+            Find skilled fundis fast, post jobs, and grow your business by
+            reaching more customers in Meru.
           </p>
 
           <div className="flex justify-center gap-4 mt-4 flex-wrap">

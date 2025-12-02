@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, Home, Users, Briefcase, PlusSquare } from "lucide-react";
+import {
+  Menu,
+  X,
+  Home,
+  Users,
+  Briefcase,
+  PlusSquare,
+  ShoppingCart,
+} from "lucide-react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,6 +58,9 @@ const Header = () => {
             <Link to="/jobs" className="hover:text-blue-600">
               Find Job
             </Link>
+            <Link to="/seller/items" className="hover:text-blue-600">
+              Marketplace
+            </Link>
             <Link to="/register/client" className="hover:text-blue-600">
               Advertise
             </Link>
@@ -72,6 +83,9 @@ const Header = () => {
             </Link>
             <Link to="/jobs" className="block hover:text-blue-600">
               Find Job
+            </Link>
+            <Link to="/seller/items" className="block hover:text-blue-600">
+              Marketplace
             </Link>
             <Link to="/register/client" className="block hover:text-blue-600">
               Advertise
@@ -102,6 +116,13 @@ const Header = () => {
         >
           <Briefcase size={24} />
           <span className="text-xs mt-1">Jobs</span>
+        </Link>
+        <Link
+          to="/seller/items"
+          className="flex flex-col items-center text-gray-700 dark:text-gray-200"
+        >
+          <ShoppingCart size={24} />
+          <span className="text-xs mt-1">Marketplace</span>
         </Link>
         {!token && (
           <Link

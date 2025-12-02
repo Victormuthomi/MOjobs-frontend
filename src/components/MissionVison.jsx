@@ -1,5 +1,5 @@
 import React from "react";
-import { Megaphone, Hammer, UserCheck, TrendingUp } from "lucide-react";
+import { Megaphone, Hammer, UserCheck, ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
 
 const MissionVision = () => {
@@ -19,11 +19,26 @@ const MissionVision = () => {
           Our Mission
         </h2>
         <p className="text-gray-700 dark:text-gray-300 mb-6 max-w-xl mx-auto">
-          At <strong>MO-jobs</strong>, we create more jobs, help fundis earn
-          more money, and enable businesses to reach more customers — so
-          everyone in Meru can live happier.
+          At <strong>MO-jobs</strong>, we create more opportunities: launch your
+          Marketplace items, find skilled fundis, and help businesses reach more
+          customers — so everyone in Meru can grow and live happier.
         </p>
-        <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          {/* Sellers */}
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md flex flex-col items-center">
+            <div className="w-12 h-12 mb-2 flex items-center justify-center bg-purple-100 dark:bg-purple-900 rounded-full">
+              <ShoppingCart
+                size={24}
+                className="text-purple-600 dark:text-purple-400"
+              />
+            </div>
+            <h3 className="font-semibold text-purple-600 mb-2">For Sellers</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm text-center">
+              Post items on sale and reach buyers — open to individuals and
+              businesses.
+            </p>
+          </div>
+
           {/* Fundis */}
           <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md flex flex-col items-center">
             <div className="w-12 h-12 mb-2 flex items-center justify-center bg-blue-100 dark:bg-blue-900 rounded-full">
@@ -52,7 +67,7 @@ const MissionVision = () => {
           {/* Businesses */}
           <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md flex flex-col items-center">
             <div className="w-12 h-12 mb-2 flex items-center justify-center bg-yellow-100 dark:bg-yellow-900 rounded-full">
-              <TrendingUp
+              <Megaphone
                 size={24}
                 className="text-yellow-600 dark:text-yellow-400"
               />

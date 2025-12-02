@@ -1,8 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { User, Users, Megaphone } from "lucide-react"; // Updated icons
+import { ShoppingCart, User, Users } from "lucide-react"; // Updated icons
 
 const features = [
+  {
+    icon: <ShoppingCart size={28} />,
+    color: "from-purple-500 to-purple-300",
+    title: "More Items",
+    desc: "Anyone can post items on sale and reach buyers quickly — open to individuals and businesses alike.",
+  },
   {
     icon: <User size={28} />,
     color: "from-blue-500 to-blue-300",
@@ -15,12 +21,6 @@ const features = [
     title: "More Talent",
     desc: "Clients and homeowners connect with verified, experienced technicians for every job they need done.",
   },
-  {
-    icon: <Megaphone size={28} />,
-    color: "from-orange-500 to-yellow-300",
-    title: "More Customers",
-    desc: "Businesses reach more local clients through targeted ads, growing their sales and impact in the community.",
-  },
 ];
 
 const WhyMoJobsSection = () => (
@@ -30,8 +30,9 @@ const WhyMoJobsSection = () => (
         Why MO-jobs?
       </h2>
       <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        Connecting skilled workers with jobs, helping clients find talent, and
-        enabling businesses to reach more customers.
+        Launching our Marketplace first: post items, reach buyers, and grow your
+        business or personal sales. MO-jobs also connects skilled workers with
+        jobs and helps clients find talent quickly.
       </p>
     </div>
 

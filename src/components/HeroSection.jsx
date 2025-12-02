@@ -28,7 +28,7 @@ const HeroSection = () => (
               2000,
               "Clients Find Skilled Talent Fast.",
               2000,
-              "Businesses Reach More Customers.",
+              "Marketplace: Browse Items on Sale",
               2000,
             ]}
             wrapper="span"
@@ -36,23 +36,32 @@ const HeroSection = () => (
             repeat={Infinity}
           />
         </h1>
+
         <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300">
-          MO-jobs is Meru's trusted platform to{" "}
+          MO-jobs is Meru's trusted platform to browse{" "}
+          <span className="text-purple-600 dark:text-purple-400 font-semibold">
+            items on sale
+          </span>
+          , where anyone can post items and reach more customers — open to
+          individuals and businesses alike. It also helps you{" "}
           <span className="text-blue-600 dark:text-blue-400 font-semibold">
             find skilled fundis
           </span>
-          ,{" "}
+          , and{" "}
           <span className="text-green-600 dark:text-green-400 font-semibold">
             hire the right talent
-          </span>
-          , and{" "}
-          <span className="text-yellow-600 dark:text-yellow-400 font-semibold">
-            grow your business by reaching more customers
           </span>
           .
         </p>
 
         <div className="flex justify-center md:justify-start gap-4 flex-wrap">
+          <Link
+            to="/seller/items"
+            className="px-6 py-3 rounded-full border border-purple-600 text-purple-600 hover:bg-purple-50 dark:hover:bg-gray-700 transition transform hover:scale-105"
+          >
+            Browse Marketplace
+          </Link>
+
           <Link
             to="/fundis"
             className="px-6 py-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition transform hover:scale-105"
@@ -85,7 +94,7 @@ const HeroSection = () => (
             </a>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               Direct APK download for Android — coming soon to Play Store and
-              appstore
+              App Store
             </p>
           </div>
         </div>

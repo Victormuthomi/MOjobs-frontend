@@ -3,47 +3,43 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./HowItWorksCarousel.css"; // arrow color fixes
-import {
-  UserPlus,
-  Briefcase,
-  CheckCircle,
-  CreditCard,
-  Users,
-  Megaphone,
-  Wrench,
-} from "lucide-react";
+import { UserPlus, ShoppingCart, CheckCircle, CreditCard } from "lucide-react";
 
 const steps = {
-  client: [
+  seller: [
     {
-      title: "Register as a Client",
+      title: "Register as Seller",
       icon: <UserPlus size={32} />,
-      description: "Create your free account and start hiring.",
-      color: "from-blue-500 to-purple-500",
+      description:
+        "Create your free account to start selling items on Marketplace.",
+      color: "from-purple-500 to-purple-300",
     },
     {
-      title: "Post a Job",
-      icon: <Briefcase size={32} />,
-      description: "Describe your job and publish it in minutes.",
+      title: "Login & Access Dashboard",
+      icon: <UserPlus size={32} />,
+      description:
+        "Sign in to manage your items, view sales, and update your listings.",
       color: "from-indigo-500 to-pink-500",
     },
     {
-      title: "Pay Ksh 100",
-      icon: <CreditCard size={32} />,
-      description: "Pay to have your job listed and attract fundis.",
-      color: "from-emerald-500 to-green-400",
+      title: "Post Your First Item",
+      icon: <ShoppingCart size={32} />,
+      description: "First item under Ksh 5000 is free; post others easily.",
+      color: "from-purple-400 to-purple-200",
     },
     {
-      title: "Review Applicants",
-      icon: <Users size={32} />,
-      description: "Fundis will apply and you pick the right one.",
-      color: "from-cyan-500 to-blue-400",
+      title: "Post Additional Items",
+      icon: <ShoppingCart size={32} />,
+      description:
+        "Items < Ksh 500: Ksh 50 per item. Items > Ksh 5000: first item 5% off, others 10%.",
+      color: "from-purple-600 to-pink-400",
     },
     {
-      title: "Post an Ad (Optional)",
-      icon: <Megaphone size={32} />,
-      description: "Promote your service or business for Ksh 500.",
-      color: "from-yellow-500 to-orange-500",
+      title: "Get Buyers & Sell",
+      icon: <CheckCircle size={32} />,
+      description:
+        "Buyers contact you directly and complete the purchase. Earn and grow your sales.",
+      color: "from-teal-500 to-green-400",
     },
   ],
   fundi: [
@@ -67,15 +63,48 @@ const steps = {
     },
     {
       title: "Apply for Jobs",
-      icon: <Briefcase size={32} />,
+      icon: <ShoppingCart size={32} />,
       description: "Browse posted jobs and apply instantly.",
       color: "from-cyan-500 to-blue-400",
     },
     {
       title: "Get Hired & Work",
-      icon: <Wrench size={32} />,
+      icon: <CheckCircle size={32} />,
       description: "Get clients, earn money, and grow your reputation.",
       color: "from-purple-500 to-pink-600",
+    },
+  ],
+  client: [
+    {
+      title: "Register as a Client",
+      icon: <UserPlus size={32} />,
+      description: "Create your free account and start hiring.",
+      color: "from-blue-500 to-purple-500",
+    },
+    {
+      title: "Post a Job",
+      icon: <ShoppingCart size={32} />,
+      description: "Describe your job and publish it in minutes.",
+      color: "from-indigo-500 to-pink-500",
+    },
+    {
+      title: "Pay Ksh 100",
+      icon: <CreditCard size={32} />,
+      description: "Pay to have your job listed and attract fundis.",
+      color: "from-emerald-500 to-green-400",
+    },
+    {
+      title: "Review Applicants",
+      icon: <CheckCircle size={32} />,
+      description: "Fundis will apply and you pick the right one.",
+      color: "from-cyan-500 to-blue-400",
+    },
+    {
+      title: "Hire & Work",
+      icon: <CheckCircle size={32} />,
+      description:
+        "Get the right fundi, complete your project, and grow your business.",
+      color: "from-yellow-500 to-orange-500",
     },
   ],
 };
@@ -95,7 +124,7 @@ const sliderSettings = {
 };
 
 const HowItWorksCarousel = () => {
-  const [tab, setTab] = useState("fundi");
+  const [tab, setTab] = useState("seller");
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-16">
@@ -104,7 +133,17 @@ const HowItWorksCarousel = () => {
       </h2>
 
       {/* Tabs */}
-      <div className="flex justify-center mb-8 gap-4">
+      <div className="flex justify-center mb-8 gap-4 flex-wrap">
+        <button
+          onClick={() => setTab("seller")}
+          className={`px-6 py-2 rounded-full font-semibold transition ${
+            tab === "seller"
+              ? "bg-purple-600 text-white"
+              : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+          }`}
+        >
+          For Sellers
+        </button>
         <button
           onClick={() => setTab("fundi")}
           className={`px-6 py-2 rounded-full font-semibold transition ${
