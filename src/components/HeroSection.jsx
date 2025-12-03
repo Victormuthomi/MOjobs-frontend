@@ -89,7 +89,7 @@ const HeroSection = () => (
           {/* APK Download Button (purple now) */}
           <div className="flex flex-col items-center">
             <a
-              href="https://mojobs.vercel.app/downloads/MOjobs.apk"
+              href="/images/MOjobs.apk"
               download
               className="px-6 py-3 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition transform hover:scale-105"
             >
