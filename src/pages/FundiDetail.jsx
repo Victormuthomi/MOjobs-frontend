@@ -74,8 +74,8 @@ const FundiDetail = () => {
       <div className="max-w-3xl mx-auto bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 p-4 mb-6 rounded-xl border-l-4 border-yellow-500">
         <strong>⚠️ Safety Notice:</strong> Please do not make any payments
         before the fundi has completed the agreed work. <br />
-        <strong>AjiriNow is not liable</strong> for any unauthorized
-        transactions or advance payments.
+        <strong>MO-jobs is not liable</strong> for any unauthorized transactions
+        or advance payments.
       </div>
 
       {/* 👤 Fundi Card */}
@@ -149,7 +149,7 @@ const FundiDetail = () => {
 
       {/* ➕ Fundi Register CTA */}
       <div className="max-w-2xl mx-auto bg-green-100 border-l-4 border-green-500 text-green-800 dark:bg-green-900 dark:text-green-200 p-4 rounded-xl shadow-sm text-center">
-        Are you a skilled fundi and want to be featured on AjiriNow?{" "}
+        Are you a skilled fundi and want to be featured on MO-jobs?{" "}
         <button
           onClick={() => navigate("/register/fundi")}
           className="underline font-semibold hover:text-green-900"

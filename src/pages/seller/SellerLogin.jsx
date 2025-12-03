@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff, Lock, Phone, HardHat, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
-import axios, { BASE_URL } from "../../lib/axios"; // <-- Use axios
+import axios, { BASE_URL } from "../../lib/axios";
 
 const SellerLogin = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ phone: "", password: "" });
+  const [formData, setFormData] = useState({ phone_number: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +16,7 @@ const SellerLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!/^\d{10}$/.test(formData.phone)) {
+    if (!/^\d{10}$/.test(formData.phone_number)) {
       return toast.error("Phone number must be exactly 10 digits.");
     }
 
@@ -27,7 +27,7 @@ const SellerLogin = () => {
       const res = await axios.post(
         `${BASE_URL}accounts/login/`,
         {
-          phone_number: formData.phone,
+          phone_number: formData.phone_number,
           password: formData.password,
         },
         {
@@ -98,9 +98,9 @@ const SellerLogin = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               icon={<Phone />}
-              name="phone"
+              name="phone_number"
               placeholder="Phone Number"
-              value={formData.phone}
+              value={formData.phone_number}
               onChange={handleChange}
             />
             <Input

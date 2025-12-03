@@ -1,25 +1,25 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ShoppingCart, User, Users } from "lucide-react"; // Updated icons
+import { ShoppingCart, User, Users } from "lucide-react";
 
 const features = [
   {
     icon: <ShoppingCart size={28} />,
     color: "from-purple-500 to-purple-300",
     title: "More Items",
-    desc: "Anyone can post items on sale and reach buyers quickly — open to individuals and businesses alike.",
+    desc: "Sellers can post items for sale and reach buyers quickly — open to individuals and businesses alike.",
   },
   {
     icon: <User size={28} />,
     color: "from-blue-500 to-blue-300",
     title: "More Jobs",
-    desc: "Skilled fundis find gigs in tech, electrical, and construction, turning skills into income and a better life.",
+    desc: "Skilled Fundis find gigs in tech, electrical, and construction — turning skills into income and growth.",
   },
   {
     icon: <Users size={28} />,
     color: "from-green-500 to-green-300",
     title: "More Talent",
-    desc: "Clients and homeowners connect with verified, experienced technicians for every job they need done.",
+    desc: "Clients and homeowners connect with verified Fundis for every job they need done, fast and reliable.",
   },
 ];
 
@@ -30,9 +30,9 @@ const WhyMoJobsSection = () => (
         Why MO-jobs?
       </h2>
       <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        Launching our Marketplace first: post items, reach buyers, and grow your
-        business or personal sales. MO-jobs also connects skilled workers with
-        jobs and helps clients find talent quickly.
+        MO-jobs connects buyers, sellers, skilled Fundis, and clients in Meru
+        towns. Post items, find work, hire talent, and grow your income — all in
+        one trusted platform.
       </p>
     </div>
 

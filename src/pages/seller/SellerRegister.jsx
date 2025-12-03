@@ -11,13 +11,13 @@ import {
   BadgeCheck,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import axios, { BASE_URL } from "../../lib/axios"; // <-- Use axios
+import axios, { BASE_URL } from "../../lib/axios";
 
 const SellerRegister = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
-    phone: "",
+    phone_number: "",
     idNumber: "",
     password: "",
     confirmPassword: "",
@@ -37,13 +37,13 @@ const SellerRegister = () => {
       return toast.error("Password must be at least 8 characters.");
     if (formData.password !== formData.confirmPassword)
       return toast.error("Passwords do not match.");
-    if (!/^\d{10}$/.test(formData.phone))
+    if (!/^\d{10}$/.test(formData.phone_number))
       return toast.error("Phone number must be exactly 10 digits.");
     if (!formData.idNumber.trim()) return toast.error("ID number is required.");
 
     const payload = {
       name: formData.fullName,
-      phone_number: formData.phone,
+      phone_number: formData.phone_number,
       id_number: formData.idNumber,
       password: formData.password,
       role: "seller",
@@ -51,13 +51,9 @@ const SellerRegister = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${BASE_URL}accounts/register/`,
-        payload,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      await axios.post(`${BASE_URL}accounts/register/`, payload, {
+        headers: { "Content-Type": "application/json" },
+      });
 
       toast.success("Registration successful! Redirecting to login...");
       setTimeout(() => navigate("/login/seller"), 1500);
@@ -110,9 +106,9 @@ const SellerRegister = () => {
             />
             <Input
               icon={<Phone />}
-              name="phone"
+              name="phone_number"
               placeholder="Phone Number"
-              value={formData.phone}
+              value={formData.phone_number}
               onChange={handleChange}
             />
             <Input

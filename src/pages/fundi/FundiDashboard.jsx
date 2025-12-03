@@ -1,10 +1,11 @@
+// src/pages/FundiDashboard.jsx
 import React, { useEffect, useState } from "react";
 import { CheckCircle, Shield, XCircle, Phone, Star, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../lib/axios";
 import toast from "react-hot-toast";
-import FundiSidebar from "../../components/FundiSidebar";
 import HorizontalAdsStrip from "../../components/HorizontalAdsStrip";
+import Layout from "../../components/Layout";
 
 const FundiDashboard = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const FundiDashboard = () => {
       setUserData({
         name: res.data.name || "Fundi",
         on_trial: res.data.on_trial,
-        is_subscribed: res.data.is_subscribed, // ✅ new field
+        is_subscribed: res.data.is_subscribed,
         subscription_end: res.data.subscription_end,
       });
     } catch (err) {
@@ -42,10 +43,10 @@ const FundiDashboard = () => {
       await axios.put(
         "/accounts/fundis/me/",
         { is_available: newValue },
-        { headers: { Authorization: `Token ${token}` } },
+        { headers: { Authorization: `Token ${token}` } }
       );
       toast.success(
-        `You are now marked as ${newValue ? "available" : "not available"}`,
+        `You are now marked as ${newValue ? "available" : "not available"}`
       );
     } catch (err) {
       setProfile((prev) => ({ ...prev, is_available: !newValue }));
@@ -79,202 +80,182 @@ const FundiDashboard = () => {
   const calculateDaysLeft = (endDateStr) => {
     const today = new Date();
     const endDate = new Date(endDateStr);
-    const todayOnly = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
-    );
-    const endOnly = new Date(
-      endDate.getFullYear(),
-      endDate.getMonth(),
-      endDate.getDate(),
-    );
-    const diffInMs = endOnly - todayOnly;
-    const msPerDay = 1000 * 60 * 60 * 24;
-    const diffDays = Math.floor(diffInMs / msPerDay);
-    return Math.max(0, diffDays);
+    const diffInMs =
+      new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()) -
+      new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    return Math.max(0, Math.floor(diffInMs / (1000 * 60 * 60 * 24)));
   };
 
   const badge = getSubscriptionBadge();
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-blue-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <FundiSidebar />
-
-      <main className="flex-1 p-4 sm:p-6 md:p-8">
-        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
-            Dashboard
-          </h1>
-          <p className="text-gray-700 dark:text-gray-300">
-            Welcome,{" "}
-            <span className="font-semibold text-blue-600 dark:text-blue-400">
-              {userData?.name}
-            </span>
-          </p>
-        </header>
-
-        {/* 💡 Live Ads Section */}
-        <section className="mt-8 mb-6">
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-            Sponsored Ads Near You
-          </h3>
-          <HorizontalAdsStrip />
-        </section>
-
-        {/* ✅ Subscription Info */}
-        <div className="mb-6">
-          <span
-            className={`inline-block px-4 py-2 rounded-full text-sm font-medium ${badge.style}`}
-          >
-            Subscription: {badge.label}
+    <Layout userType="fundi">
+      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+          Dashboard
+        </h1>
+        <p className="text-gray-700 dark:text-gray-300">
+          Welcome,{" "}
+          <span className="font-semibold text-blue-600 dark:text-blue-400">
+            {userData?.name}
           </span>
+        </p>
+      </header>
 
-          {/* Correct expiration display */}
-          {userData?.on_trial && profile?.trial_ends ? (
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              {new Date(profile.trial_ends) > new Date()
-                ? "Expires on: "
-                : "Expired on: "}
-              <strong className="text-gray-900 dark:text-white">
-                {new Date(profile.trial_ends).toLocaleDateString("en-KE", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </strong>
-            </p>
-          ) : userData?.subscription_end ? (
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              {new Date(userData.subscription_end) > new Date()
-                ? "Expires on: "
-                : "Expired on: "}
-              <strong className="text-gray-900 dark:text-white">
-                {new Date(userData.subscription_end).toLocaleDateString(
-                  "en-KE",
-                  {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  },
-                )}
-              </strong>
-            </p>
-          ) : null}
+      {/* Live Ads Section */}
+      <section className="mt-8 mb-6">
+        <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+          Sponsored Ads Near You
+        </h3>
+        <HorizontalAdsStrip />
+      </section>
 
-          {/* 🚀 Trial Days Left */}
-          {userData?.on_trial && profile?.trial_ends && (
-            <p className="text-xs mt-1 text-yellow-700 dark:text-yellow-300">
-              🚀 Trial –{" "}
-              <strong>{calculateDaysLeft(profile.trial_ends)} days left</strong>
+      {/* Subscription Info */}
+      <div className="mb-6">
+        <span
+          className={`inline-block px-4 py-2 rounded-full text-sm font-medium ${badge.style}`}
+        >
+          Subscription: {badge.label}
+        </span>
+
+        {userData?.on_trial && profile?.trial_ends ? (
+          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            {new Date(profile.trial_ends) > new Date()
+              ? "Expires on: "
+              : "Expired on: "}
+            <strong className="text-gray-900 dark:text-white">
+              {new Date(profile.trial_ends).toLocaleDateString("en-KE", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </strong>
+          </p>
+        ) : userData?.subscription_end ? (
+          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            {new Date(userData.subscription_end) > new Date()
+              ? "Expires on: "
+              : "Expired on: "}
+            <strong className="text-gray-900 dark:text-white">
+              {new Date(userData.subscription_end).toLocaleDateString("en-KE", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </strong>
+          </p>
+        ) : null}
+
+        {userData?.on_trial && profile?.trial_ends && (
+          <p className="text-xs mt-1 text-yellow-700 dark:text-yellow-300">
+            🚀 Trial –{" "}
+            <strong>{calculateDaysLeft(profile.trial_ends)} days left</strong>
+          </p>
+        )}
+
+        {!userData?.on_trial &&
+          userData?.is_subscribed &&
+          userData?.subscription_end &&
+          new Date(userData.subscription_end) > new Date() && (
+            <p className="text-xs mt-1 text-green-700 dark:text-green-300">
+              ✅ Subscribed –{" "}
+              <strong>
+                {calculateDaysLeft(userData.subscription_end)} days left
+              </strong>
             </p>
           )}
+      </div>
 
-          {/* ✅ Subscription Days Left */}
-          {!userData?.on_trial &&
-            userData?.is_subscribed &&
-            userData?.subscription_end &&
-            new Date(userData.subscription_end) > new Date() && (
-              <p className="text-xs mt-1 text-green-700 dark:text-green-300">
-                ✅ Subscribed –{" "}
-                <strong>
-                  {calculateDaysLeft(userData.subscription_end)} days left
-                </strong>
-              </p>
-            )}
+      {/* Incomplete Profile */}
+      {isProfileIncomplete && (
+        <div className="bg-yellow-100 dark:bg-yellow-800 border-l-4 border-yellow-500 p-4 rounded-lg mb-6">
+          <div className="flex items-center gap-3 text-yellow-700 dark:text-yellow-200">
+            <XCircle />
+            <p>
+              Please complete your profile (add <strong>skills</strong> and{" "}
+              <strong>location</strong>) to appear on the fundis page.
+            </p>
+          </div>
         </div>
+      )}
 
-        {/* ⚠️ Incomplete Profile */}
-        {isProfileIncomplete && (
-          <div className="bg-yellow-100 dark:bg-yellow-800 border-l-4 border-yellow-500 p-4 rounded-lg mb-6">
-            <div className="flex items-center gap-3 text-yellow-700 dark:text-yellow-200">
-              <XCircle />
+      {/* Inactive Subscription Notice */}
+      {!userData?.on_trial && !userData?.is_subscribed && (
+        <div className="bg-red-100 dark:bg-red-900 border-l-4 border-red-500 p-4 rounded-lg mb-6">
+          <div className="flex items-center justify-between flex-wrap gap-4 text-red-800 dark:text-red-200">
+            <div className="flex items-center gap-3">
+              <XCircle className="w-5 h-5" />
               <p>
-                Please complete your profile (add <strong>skills</strong> and{" "}
-                <strong>location</strong>) to appear on the fundis page.
+                Your subscription is <strong>inactive</strong>. You need to
+                subscribe to be featured on the <strong>fundis list</strong>.
               </p>
             </div>
+            <button
+              onClick={() => navigate("/fundi/subscription")}
+              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+            >
+              Subscribe Now
+            </button>
           </div>
-        )}
-
-        {/* 🚫 Inactive Subscription Notice */}
-        {!userData?.on_trial && !userData?.is_subscribed && (
-          <div className="bg-red-100 dark:bg-red-900 border-l-4 border-red-500 p-4 rounded-lg mb-6">
-            <div className="flex items-center justify-between flex-wrap gap-4 text-red-800 dark:text-red-200">
-              <div className="flex items-center gap-3">
-                <XCircle className="w-5 h-5" />
-                <p>
-                  Your subscription is <strong>inactive</strong>. You need to
-                  subscribe to be featured on the <strong>fundis list</strong>.
-                </p>
-              </div>
-              <button
-                onClick={() => navigate("/fundi/subscription")}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
-              >
-                Subscribe Now
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Profile Info Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <DashboardCard
-            title="Are you available for work?"
-            icon={<CheckCircle />}
-            color="blue"
-            value={
-              <div className="flex items-center gap-4">
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="sr-only peer"
-                    checked={profile?.is_available || false}
-                    onChange={handleToggle}
-                  />
-                  <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:bg-green-500 transition duration-300"></div>
-                  <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-full transition duration-300"></div>
-                </label>
-                <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                  {profile?.is_available ? "Yes, I am!" : "No, I’m not"}
-                </span>
-              </div>
-            }
-          />
-          <DashboardCard
-            title="Your Skills"
-            value={profile?.skills || "N/A"}
-            icon={<CheckCircle />}
-            color="blue"
-          />
-          <DashboardCard
-            title="Location"
-            value={profile?.location || "N/A"}
-            icon={<Shield />}
-            color="green"
-          />
-          <DashboardCard
-            title="Phone Number"
-            value={profile?.phone_number || "N/A"}
-            icon={<Phone />}
-            color="indigo"
-          />
-          <DashboardCard
-            title="Contact Visibility"
-            value={profile?.show_contact ? "Visible" : "Hidden"}
-            icon={<User />}
-            color="indigo"
-          />
-          <DashboardCard
-            title="Rate Note"
-            value={profile?.rate_note || "No rate added yet."}
-            icon={<Star />}
-            color="green"
-          />
         </div>
-      </main>
-    </div>
+      )}
+
+      {/* Profile Info Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <DashboardCard
+          title="Are you available for work?"
+          icon={<CheckCircle />}
+          color="blue"
+          value={
+            <div className="flex items-center gap-4">
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={profile?.is_available || false}
+                  onChange={handleToggle}
+                />
+                <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:bg-green-500 transition duration-300"></div>
+                <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer-checked:translate-x-full transition duration-300"></div>
+              </label>
+              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                {profile?.is_available ? "Yes, I am!" : "No, I’m not"}
+              </span>
+            </div>
+          }
+        />
+        <DashboardCard
+          title="Your Skills"
+          value={profile?.skills || "N/A"}
+          icon={<CheckCircle />}
+          color="blue"
+        />
+        <DashboardCard
+          title="Location"
+          value={profile?.location || "N/A"}
+          icon={<Shield />}
+          color="green"
+        />
+        <DashboardCard
+          title="Phone Number"
+          value={profile?.phone_number || "N/A"}
+          icon={<Phone />}
+          color="indigo"
+        />
+        <DashboardCard
+          title="Contact Visibility"
+          value={profile?.show_contact ? "Visible" : "Hidden"}
+          icon={<User />}
+          color="indigo"
+        />
+        <DashboardCard
+          title="Rate Note"
+          value={profile?.rate_note || "No rate added yet."}
+          icon={<Star />}
+          color="green"
+        />
+      </div>
+    </Layout>
   );
 };
 

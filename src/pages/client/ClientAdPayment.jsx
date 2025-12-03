@@ -1,18 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "../../lib/axios";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
 import ClientSidebar from "../../components/ClientSidebar";
+// import axios from "../../lib/axios"; // Commented out for fake payment
 
 const ClientAdPayment = () => {
   const { adId } = useParams();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token"); // Commented out for fake payment
 
-  const [phone, setPhone] = useState("");
+  const [mpesaRef, setMpesaRef] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // Temporary hardcoded payment details
+  const amount = 200;
+  const paybill = "247247";
+  const accountNumber = "103018689971";
+
+  const handleFakePayment = (e) => {
+    e.preventDefault();
+
+    if (!mpesaRef.trim()) {
+      setMessage("Please enter a valid MPESA reference.");
+      return;
+    }
+
+    setLoading(true);
+    setMessage("");
+
+    setTimeout(() => {
+      setLoading(false);
+      setShowSuccess(true);
+      setMessage("Payment successful!");
+
+      // Simulate redirect after 1.5s
+      setTimeout(() => navigate("/dashboard/client/ads"), 1500);
+    }, 1200);
+  };
+
+  /* 
+  // ===== Original STK Push code (commented out for manual testing) =====
+  const [phone, setPhone] = useState("");
   const [showFailed, setShowFailed] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
@@ -120,6 +150,8 @@ const ClientAdPayment = () => {
       setLoading(false);
     }
   };
+  // ===== End of original code =====
+  */
 
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-blue-50 via-white to-green-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -145,56 +177,55 @@ const ClientAdPayment = () => {
             </div>
           )}
 
-          {showFailed && (
-            <div className="bg-red-50 dark:bg-red-900 border border-red-300 dark:border-red-700 p-4 rounded-xl text-center">
-              <XCircle
-                size={40}
-                className="text-red-600 dark:text-red-300 mx-auto mb-2"
-              />
-              <p className="text-lg font-semibold text-red-700 dark:text-red-200">
-                Payment Failed or Timed Out
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                Please try again.
-              </p>
-            </div>
-          )}
-
           {!showSuccess && (
             <>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="e.g. 0712345678"
-                  disabled={loading || disabled}
-                  className="w-full p-3 border rounded-xl bg-white dark:bg-gray-700 dark:text-white"
-                />
+              <div className="p-6 border-2 rounded-xl bg-gray-50 dark:bg-gray-700 mb-4 space-y-2">
+                <p className="text-lg font-semibold">
+                  Paybill: <span className="font-normal">{paybill}</span>
+                </p>
+                <p className="text-lg font-semibold">
+                  Account Number:{" "}
+                  <span className="font-normal">{accountNumber}</span>
+                </p>
+                <p className="text-lg font-semibold">
+                  Amount: <span className="font-normal">Ksh {amount}</span>
+                </p>
               </div>
 
-              <button
-                onClick={handlePay}
-                disabled={loading || disabled}
-                className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-full transition-transform transform hover:scale-105 disabled:opacity-50"
-              >
-                {loading ? (
-                  <span className="flex justify-center items-center gap-2">
-                    <Loader2 className="animate-spin" size={18} />
-                    Processing...
-                  </span>
-                ) : (
-                  "Pay Ksh 500 to Publish Ad"
-                )}
-              </button>
+              <form onSubmit={handleFakePayment} className="space-y-4">
+                <div>
+                  <label className="block mb-1 font-medium text-gray-700 dark:text-gray-300">
+                    MPESA Reference
+                  </label>
+                  <input
+                    type="text"
+                    value={mpesaRef}
+                    onChange={(e) => setMpesaRef(e.target.value)}
+                    placeholder="Enter MPESA ref here"
+                    className="w-full border rounded p-2 bg-white dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-full transition-transform transform hover:scale-105 disabled:opacity-50"
+                >
+                  {loading ? (
+                    <span className="flex justify-center items-center gap-2">
+                      <Loader2 className="animate-spin" size={18} />
+                      Processing...
+                    </span>
+                  ) : (
+                    "Submit Payment"
+                  )}
+                </button>
+              </form>
             </>
           )}
 
           {message && (
-            <p className="text-center text-sm text-gray-800 dark:text-gray-300">
+            <p className="text-center text-sm text-gray-800 dark:text-gray-300 mt-2">
               {message}
             </p>
           )}

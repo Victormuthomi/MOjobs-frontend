@@ -1,4 +1,3 @@
-// src/components/ClientSidebar.jsx
 import {
   LayoutDashboard,
   Briefcase,
@@ -7,10 +6,11 @@ import {
   LogOut,
   HardHat,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const ClientSidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -18,53 +18,87 @@ const ClientSidebar = () => {
     navigate("/login/client");
   };
 
+  const links = [
+    { to: "/dashboard/client", icon: <LayoutDashboard />, text: "Dashboard" },
+    { to: "/fundis", icon: <User />, text: "Fundis" },
+    { to: "/jobs", icon: <Briefcase />, text: "Jobs" },
+    { to: "/dashboard/client/jobs", icon: <Briefcase />, text: "My Jobs" },
+    { to: "/dashboard/client/ads", icon: <Megaphone />, text: "My Ads" },
+    { to: "/profile/update/client", icon: <User />, text: "Profile" },
+  ];
+
   return (
-    <aside className="w-full md:w-64 bg-white dark:bg-gray-800 shadow-xl p-6 flex flex-col">
-      <h2 className="text-2xl font-bold text-green-700 dark:text-white flex items-center gap-2 mb-8">
-        <HardHat /> MO-jobs
-      </h2>
-      <nav className="space-y-4 mb-6">
-        <SidebarLink
-          icon={<LayoutDashboard />}
-          text="Dashboard"
-          to="/dashboard/client"
-        />
-        <SidebarLink icon={<User />} text="Fundis" to="/fundis" />
-        <SidebarLink icon={<Briefcase />} text="Jobs" to="/jobs" />
-        <SidebarLink
-          icon={<Briefcase />}
-          text="My Jobs"
-          to="/dashboard/client/jobs"
-        />
-        <SidebarLink
-          icon={<Megaphone />}
-          text="My Ads"
-          to="/dashboard/client/ads"
-        />
-        <SidebarLink
-          icon={<User />}
-          text="Profile"
-          to="/profile/update/client"
-        />
-      </nav>
-      <button
-        onClick={handleLogout}
-        className="flex items-center gap-2 text-red-600 hover:underline"
-      >
-        <LogOut size={18} /> Logout
-      </button>
-    </aside>
+    <>
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex md:w-64 bg-white dark:bg-gray-800 shadow-xl p-6 flex-col">
+        <h2 className="text-2xl font-bold text-green-700 dark:text-white flex items-center gap-2 mb-8">
+          <HardHat /> MO-jobs
+        </h2>
+
+        <nav className="space-y-4 mb-6">
+          {links.map((link) => (
+            <SidebarLink
+              key={link.to}
+              {...link}
+              active={location.pathname === link.to}
+            />
+          ))}
+        </nav>
+
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-red-600 hover:underline"
+        >
+          <LogOut size={18} /> Logout
+        </button>
+      </aside>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-2xl flex justify-around py-2 z-50">
+        {links.map((link) => (
+          <MobileNavLink
+            key={link.to}
+            {...link}
+            active={location.pathname === link.to}
+          />
+        ))}
+        <button
+          onClick={handleLogout}
+          className="flex flex-col items-center text-red-600"
+        >
+          <LogOut size={20} />
+          <span className="text-xs">Logout</span>
+        </button>
+      </div>
+    </>
   );
 };
 
-// Reusable link component
-const SidebarLink = ({ icon, text, to }) => (
+const SidebarLink = ({ icon, text, to, active }) => (
   <Link
     to={to}
-    className="flex items-center gap-3 text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400 transition"
+    className={`flex items-center gap-3 px-3 py-2 rounded-lg transition 
+      ${
+        active
+          ? "text-green-700 dark:text-green-400 font-semibold"
+          : "text-gray-700 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400"
+      }`}
+  >
+    {icon} {text}
+  </Link>
+);
+
+const MobileNavLink = ({ icon, text, to, active }) => (
+  <Link
+    to={to}
+    className={`flex flex-col items-center text-xs ${
+      active
+        ? "text-green-600 dark:text-green-400"
+        : "text-gray-600 dark:text-gray-300"
+    }`}
   >
     {icon}
-    {text}
+    <span>{text}</span>
   </Link>
 );
 

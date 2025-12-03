@@ -161,7 +161,7 @@ const ItemDirectory = () => {
           filteredItems.map((item) => (
             <div
               key={item.id}
-              onClick={() => navigate(`/items/${item.id}`)}
+              onClick={() => navigate(`/seller/items/${item.id}`)}
               className="cursor-pointer p-4 rounded-2xl shadow-md bg-white dark:bg-gray-800 hover:scale-[1.02] transition"
             >
               <img

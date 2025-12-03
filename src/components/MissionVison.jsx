@@ -19,10 +19,12 @@ const MissionVision = () => {
           Our Mission
         </h2>
         <p className="text-gray-700 dark:text-gray-300 mb-6 max-w-xl mx-auto">
-          At <strong>MO-jobs</strong>, we create more opportunities: launch your
-          Marketplace items, find skilled fundis, and help businesses reach more
-          customers — so everyone in Meru can grow and live happier.
+          At <strong>MO-jobs</strong>, we create more opportunities in Meru
+          towns: launch your marketplace items, find skilled Fundis, post jobs,
+          and help businesses reach more customers — so everyone can earn more
+          and live happier.
         </p>
+
         <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
           {/* Sellers */}
           <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md flex flex-col items-center">
@@ -34,8 +36,8 @@ const MissionVision = () => {
             </div>
             <h3 className="font-semibold text-purple-600 mb-2">For Sellers</h3>
             <p className="text-gray-600 dark:text-gray-300 text-sm text-center">
-              Post items on sale and reach buyers — open to individuals and
-              businesses.
+              Post items for sale and reach buyers fast — open to individuals
+              and businesses.
             </p>
           </div>
 
@@ -46,7 +48,8 @@ const MissionVision = () => {
             </div>
             <h3 className="font-semibold text-blue-600 mb-2">For Fundis</h3>
             <p className="text-gray-600 dark:text-gray-300 text-sm text-center">
-              More jobs, more income, more happiness.
+              Find more jobs, grow your skills, earn income, and increase your
+              happiness.
             </p>
           </div>
 
@@ -60,7 +63,7 @@ const MissionVision = () => {
             </div>
             <h3 className="font-semibold text-green-600 mb-2">For Clients</h3>
             <p className="text-gray-600 dark:text-gray-300 text-sm text-center">
-              Find skilled fundis fast and hire trusted talent in Meru.
+              Quickly find skilled Fundis and hire trusted talent for any job.
             </p>
           </div>
 
@@ -77,7 +80,7 @@ const MissionVision = () => {
             </h3>
             <p className="text-gray-600 dark:text-gray-300 text-sm text-center">
               Promote your services, reach more customers, and grow your
-              business.
+              business efficiently.
             </p>
           </div>
         </div>

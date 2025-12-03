@@ -1,3 +1,4 @@
+// src/pages/SellerDashboard.jsx
 import React, { useEffect, useState } from "react";
 import {
   Package,
@@ -12,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import HorizontalAdsStrip from "../../components/HorizontalAdsStrip";
-import SellerSidebar from "../../components/SellerSidebar";
+import Layout from "../../components/Layout";
 import { BASE_URL } from "../../lib/axios";
 
 const SellerDashboard = () => {
@@ -69,106 +70,102 @@ const SellerDashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-orange-50 via-white to-orange-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <SellerSidebar />
+    <Layout userType="seller">
+      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+          Dashboard
+        </h1>
+        <p className="text-gray-700 dark:text-gray-300">
+          Welcome,{" "}
+          <span className="font-semibold text-orange-600 dark:text-orange-400">
+            {user?.name || "Seller"}
+          </span>
+        </p>
+      </header>
 
-      <main className="flex-1 p-4 sm:p-6 md:p-8">
-        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
-            Dashboard
-          </h1>
-          <p className="text-gray-700 dark:text-gray-300">
-            Welcome,{" "}
-            <span className="font-semibold text-orange-600 dark:text-orange-400">
-              {user?.name || "Seller"}
-            </span>
+      <section className="mt-8 mb-6">
+        <h3 className="text-xl font-semibold text-center text-gray-800 dark:text-white mb-2">
+          Sponsored Ads / Promotions
+        </h3>
+        <HorizontalAdsStrip />
+      </section>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <DashboardCard
+          title="Total Items Listed"
+          value={items.length}
+          icon={<Package />}
+          color="orange"
+        />
+        <DashboardCard
+          title="Phone Number"
+          value={user?.phone_number || "N/A"}
+          icon={<Smartphone />}
+          color="orange"
+        />
+        <DashboardCard
+          title="Seller Badge"
+          value={user?.is_verified ? "Verified" : "Unverified"}
+          icon={<BadgeCheck />}
+          color="orange"
+        />
+        <DashboardCard
+          title="Earnings"
+          value="Coming soon"
+          icon={<DollarSign />}
+          color="orange"
+        />
+        <DashboardCard
+          title="Location"
+          value={user?.location || "Not set"}
+          icon={<MapPin />}
+          color="orange"
+        />
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+          Your Items
+        </h2>
+        {items.length === 0 ? (
+          <p className="text-gray-600 dark:text-gray-300">
+            No items listed yet.
           </p>
-        </header>
-
-        <section className="mt-8 mb-6">
-          <h3 className="text-xl font-semibold text-center text-gray-800 dark:text-white mb-2">
-            Sponsored Ads / Promotions
-          </h3>
-          <HorizontalAdsStrip />
-        </section>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-          <DashboardCard
-            title="Total Items Listed"
-            value={items.length}
-            icon={<Package />}
-            color="orange"
-          />
-          <DashboardCard
-            title="Phone Number"
-            value={user?.phone_number || "N/A"}
-            icon={<Smartphone />}
-            color="orange"
-          />
-          <DashboardCard
-            title="Seller Badge"
-            value={user?.is_verified ? "Verified" : "Unverified"}
-            icon={<BadgeCheck />}
-            color="orange"
-          />
-          <DashboardCard
-            title="Earnings"
-            value="Coming soon"
-            icon={<DollarSign />}
-            color="orange"
-          />
-          <DashboardCard
-            title="Location"
-            value={user?.location || "Not set"}
-            icon={<MapPin />}
-            color="orange"
-          />
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
-            Your Items
-          </h2>
-          {items.length === 0 ? (
-            <p className="text-gray-600 dark:text-gray-300">
-              No items listed yet.
-            </p>
-          ) : (
-            <ul className="space-y-4">
-              {items.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex justify-between items-center border-b pb-2"
-                >
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-800 dark:text-white">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
-                      Price: Ksh {item.price}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => handleEdit(item.id)}
-                      className="text-blue-600 dark:text-blue-400 flex items-center gap-1"
-                    >
-                      <Edit3 size={18} /> Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      className="text-red-600 dark:text-red-400 flex items-center gap-1"
-                    >
-                      <Trash2 size={18} /> Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </main>
-    </div>
+        ) : (
+          <ul className="space-y-4">
+            {items.map((item) => (
+              <li
+                key={item.id}
+                className="flex justify-between items-center border-b pb-2"
+              >
+                <div>
+                  <h3 className="text-lg font-medium text-gray-800 dark:text-white">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Price: Ksh {item.price}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => handleEdit(item.id)}
+                    className="text-blue-600 dark:text-blue-400 flex items-center gap-1"
+                  >
+                    <Edit3 size={18} /> Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="text-red-600 dark:text-red-400 flex items-center gap-1"
+                  >
+                    <Trash2 size={18} /> Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </Layout>
   );
 };
 

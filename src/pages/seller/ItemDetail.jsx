@@ -47,7 +47,7 @@ const ItemDetail = () => {
         {/* Back Button */}
         <div className="max-w-3xl mx-auto mb-4">
           <button
-            onClick={() => navigate("/items")}
+            onClick={() => navigate("/seller/items")}
             className="text-sm text-blue-600 hover:underline inline-flex items-center gap-1"
           >
             <ArrowLeft size={14} />

@@ -86,7 +86,7 @@ const JobDetail = () => {
       <div className="max-w-3xl mx-auto bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 p-4 mb-6 rounded-xl border-l-4 border-yellow-500">
         <strong>⚠️ Job Caution:</strong> Please ensure that you contact the job
         poster and understand all job terms before committing. <br />
-        <strong>AjiriNow does not endorse any advance payments</strong> or
+        <strong>MO-jobs does not endorse any advance payments</strong> or
         incomplete information. Always verify before accepting a job.
       </div>
 
